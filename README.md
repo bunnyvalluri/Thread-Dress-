@@ -84,7 +84,7 @@ Crafted by **[VALLURI RAHUL](https://valluri-rahul-portfolio.vercel.app/)**.
 
 ```text
 code/
-├── server/                      # Production REST & WebSocket Backend Engine
+├── backend/                     # Production REST & WebSocket Backend Engine
 │   ├── config/                  # Environment variables, CORS, ports & thresholds
 │   ├── controllers/             # Product, Order, Cart, Concierge & Health controllers
 │   ├── data/                    # JSON database seed & atomic thread-safe store
@@ -96,8 +96,26 @@ code/
 │   ├── app.js                   # Express 5 application factory & static storefront hosting
 │   └── server.js                # HTTP + WebSocket server bootstrap & graceful shutdown
 │
+├── frontend/                    # Production Storefront Client Architecture
+│   ├── public/                  # PWA icons, manifest & service worker
+│   │   ├── android-chrome-192x192.png
+│   │   ├── android-chrome-512x512.png
+│   │   ├── apple-touch-icon.png
+│   │   ├── favicon-16x16.png
+│   │   ├── favicon-32x32.png
+│   │   ├── favicon.ico
+│   │   ├── favicon.svg
+│   │   ├── site.webmanifest
+│   │   └── sw.js
+│   ├── src/
+│   │   ├── assets/images/       # Curated 26-piece photography assets
+│   │   ├── scripts/app.js       # Unified frontend state engine & real-time telemetry
+│   │   └── styles/main.css      # Master responsive luxury stylesheet
+│   └── index.html               # Main production storefront
+│
 ├── tests/                       # Automated test suite (node:test & node:assert)
-│   └── api.test.js              # Integration tests for health, catalog, cart, orders
+│   └── backend/
+│       └── api.test.js          # Integration tests for health, catalog, cart, orders
 │
 ├── prototypes/                  # Historical weekly prototypes (clean & isolated)
 │   ├── week-01-concept.html                    # Week 1: Brand Concept & Storytelling
@@ -106,36 +124,11 @@ code/
 │   ├── week-04-interactive-engine.html         # Week 4: Interactive Commerce Engine
 │   └── week-06-quality-assurance.html          # Week 6: Automated QA & Performance
 │
-├── public/                      # Static web assets, PWA icons & manifest
-│   ├── android-chrome-192x192.png              # Android home screen icon
-│   ├── android-chrome-512x512.png              # High-resolution splash icon
-│   ├── apple-touch-icon.png                    # iOS Safari home screen bookmark
-│   ├── favicon-16x16.png                       # Compact browser tab icon
-│   ├── favicon-32x32.png                       # Standard desktop browser tab icon
-│   ├── favicon.ico                             # Multi-resolution Windows / legacy icon
-│   ├── favicon.svg                             # Scalable modern vector favicon
-│   ├── site.webmanifest                        # PWA installation manifest
-│   └── sw.js                                   # Service Worker stub for offline caching
-│
-├── src/                         # Core application source
-│   ├── assets/
-│   │   └── images/              # Curated apparel & textiles product photography
-│   │       ├── cotton-overshirt.jpg
-│   │       ├── linen-shirt.jpg
-│   │       ├── hero.jpg
-│   │       └── ...
-│   │
-│   ├── scripts/
-│   │   └── app.js               # Unified high-performance application engine
-│   │
-│   └── styles/
-│       └── main.css             # Master responsive stylesheet (320px to 4K)
-│
 ├── .eslintrc.json               # Code quality & ESLint configuration
 ├── .gitignore                   # Git version control ignore definitions
-├── index.html                   # Main production storefront entry point
+├── index.html                   # Root entry point redirect to frontend/
 ├── jsconfig.json                # Editor workspace configuration
-├── package.json                 # NPM scripts & project metadata
+├── package.json                 # Monorepo NPM scripts & dependencies
 └── README.md                    # Enterprise architectural documentation
 ```
 

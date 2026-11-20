@@ -19,6 +19,7 @@ module.exports = {
   },
   paths: {
     root: path.resolve(__dirname, '../../'),
+    frontend: path.resolve(__dirname, '../../frontend'),
     dataDir: path.resolve(__dirname, '../data')
   }
 };

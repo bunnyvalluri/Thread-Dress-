@@ -5,7 +5,7 @@
 const { test, describe, before, after } = require('node:test');
 const assert = require('node:assert/strict');
 const http = require('http');
-const app = require('../server/app');
+const app = require('../../backend/app');
 
 let server;
 let baseUrl;

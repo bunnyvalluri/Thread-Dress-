@@ -33,13 +33,13 @@ app.use(requestLogger);
 app.use(config.apiPrefix, apiRoutes);
 
 // Static Asset Serving (Frontend Storefront)
-const rootDir = config.paths.root;
-app.use(express.static(rootDir, {
+const frontendDir = config.paths.frontend;
+app.use(express.static(frontendDir, {
   index: 'index.html',
   maxAge: '1h'
 }));
-app.use('/public', express.static(path.join(rootDir, 'public')));
-app.use('/src', express.static(path.join(rootDir, 'src')));
+app.use('/public', express.static(path.join(frontendDir, 'public')));
+app.use('/src', express.static(path.join(frontendDir, 'src')));
 
 // API 404 Handler
 app.use(config.apiPrefix, (req, res) => {
@@ -54,7 +54,7 @@ app.use(config.apiPrefix, (req, res) => {
 
 // Fallback to index.html for SPA client navigation
 app.use((req, res) => {
-  res.sendFile(path.join(rootDir, 'index.html'));
+  res.sendFile(path.join(frontendDir, 'index.html'));
 });
 
 // Centralized Error Handler
