@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="THREAD & FORM — considered clothing, everyday essentials and thoughtfully made textiles.">
+<title>THREAD & FORM | Everyday, considered.</title>
+<style>
+:root{--ink:#1e2b25;--muted:#68736c;--cream:#f6f4ed;--paper:#fffefa;--green:#294b3b;--sage:#dce5d8;--line:#e5e5dc;--accent:#c97852;--serif:Georgia,'Times New Roman',serif;--sans:Arial,Helvetica,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans)}button,input{font:inherit}button,a{-webkit-tap-highlight-color:transparent}a{color:inherit;text-decoration:none}.announcement{background:var(--green);color:#fff;text-align:center;padding:9px 16px;font-size:11px;letter-spacing:.13em;text-transform:uppercase}.site-header{height:78px;padding:0 6vw;display:flex;align-items:center;justify-content:space-between;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}.brand{font-family:var(--serif);font-size:25px;letter-spacing:.08em;font-weight:700}.brand span{font-weight:400}.nav{display:flex;gap:30px;font-size:12px;letter-spacing:.1em;text-transform:uppercase}.nav a:hover,.text-link:hover{color:var(--accent)}.header-actions{display:flex;align-items:center;gap:18px}.icon-btn{border:0;background:transparent;color:var(--ink);cursor:pointer;font-size:12px;letter-spacing:.08em;text-transform:uppercase}.cart-count{display:inline-grid;place-items:center;background:var(--green);color:white;border-radius:50%;width:20px;height:20px;font-size:10px;margin-left:5px}.menu-toggle{display:none}.hero{display:grid;grid-template-columns:1fr 1fr;min-height:590px;background:#e9e9df}.hero-copy{padding:clamp(48px,8vw,112px) 8vw;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}.eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:0 0 22px}.hero h1{font-family:var(--serif);font-size:clamp(48px,6vw,82px);font-weight:400;line-height:.98;letter-spacing:-.04em;margin:0 0 25px;max-width:540px}.hero-copy p{max-width:390px;color:#59655d;font-size:15px;line-height:1.8;margin:0 0 32px}.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--green);color:white;padding:16px 24px;border:1px solid var(--green);font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:.2s}.btn:hover{background:#1d382b;transform:translateY(-2px)}.btn-outline{background:transparent;color:var(--green)}.btn-outline:hover{color:white}.hero-image{min-height:500px;background:linear-gradient(0deg,rgba(20,35,27,.08),rgba(20,35,27,.02)),url('assets/hero.jpg') center 42%/cover}.section{padding:88px 6vw}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:34px}.section-head h2,.story h2{font:400 clamp(34px,4vw,52px)/1.05 var(--serif);letter-spacing:-.03em;margin:0}.section-head p{font-size:13px;color:var(--muted);margin:0 0 5px}.text-link{font-size:11px;text-transform:uppercase;letter-spacing:.13em;border-bottom:1px solid currentColor;padding-bottom:6px}.category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.category-card{position:relative;min-height:340px;overflow:hidden;background:#ddd}.category-card img{width:100%;height:100%;min-height:340px;object-fit:cover;display:block;transition:transform .6s}.category-card:hover img{transform:scale(1.04)}.category-label{position:absolute;bottom:18px;left:18px;background:var(--paper);padding:14px 18px;font:22px var(--serif)}.shop{background:var(--paper)}.filters{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 28px}.filter-btn{border:1px solid var(--line);background:transparent;padding:10px 16px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}.filter-btn.active,.filter-btn:hover{background:var(--green);border-color:var(--green);color:white}.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}.product-card{min-width:0}.product-image{position:relative;background:#efeee8;overflow:hidden;aspect-ratio:4/5}.product-image img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}.product-card:hover .product-image img{transform:scale(1.04)}.tag{position:absolute;top:12px;left:12px;background:var(--paper);padding:7px 9px;font-size:9px;letter-spacing:.1em;text-transform:uppercase}.quick-add{position:absolute;bottom:12px;left:12px;right:12px;background:rgba(255,254,250,.95);border:0;padding:13px;cursor:pointer;font-size:10px;letter-spacing:.13em;text-transform:uppercase;opacity:0;transform:translateY(8px);transition:.2s}.product-card:hover .quick-add,.quick-add:focus{opacity:1;transform:translateY(0)}.product-info{display:flex;justify-content:space-between;gap:10px;padding:14px 0 0;font-size:13px}.product-info small{display:block;color:var(--muted);font-size:11px;margin-top:6px}.price{white-space:nowrap}.story{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:8vw;background:var(--sage);padding:90px 10vw}.story-image{height:470px;background:url('assets/story.jpg') center/cover}.story-copy p{max-width:430px;line-height:1.9;color:#536258;font-size:14px;margin:24px 0 30px}.newsletter{text-align:center;padding:85px 20px;background:#e9e9df}.newsletter h2{font:400 42px var(--serif);margin:0 0 12px}.newsletter p{font-size:13px;color:var(--muted);margin:0 0 24px}.newsletter-form{display:flex;max-width:440px;margin:auto}.newsletter-form input{min-width:0;flex:1;padding:15px;border:1px solid #cfd5ca;background:var(--paper);outline:none}.newsletter-form button{border:0;background:var(--green);color:white;padding:0 20px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}.footer{background:#1f3028;color:#f6f4ed;padding:55px 6vw 25px}.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;padding-bottom:45px}.footer .brand{display:inline-block;margin-bottom:15px}.footer p,.footer a{color:#c7d0c8;font-size:12px;line-height:1.9}.footer h4{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:400}.footer-links{display:grid;gap:8px}.copyright{border-top:1px solid #425047;padding-top:20px;color:#aab7ad;font-size:10px;display:flex;justify-content:space-between;gap:15px}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);background:var(--green);color:white;padding:14px 20px;font-size:12px;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translate(-50%,0)}.empty-state{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px}
+@media(max-width:900px){.nav{gap:16px}.hero{min-height:500px}.product-grid{grid-template-columns:repeat(2,1fr)}.story{padding:70px 7vw;gap:5vw}.story-image{height:400px}}
+@media(max-width:650px){.announcement{font-size:9px}.site-header{height:66px;padding:0 5vw}.brand{font-size:21px}.menu-toggle{display:block}.nav{display:none;position:absolute;top:66px;left:0;right:0;background:var(--paper);padding:22px 6vw 28px;flex-direction:column;gap:20px;border-bottom:1px solid var(--line)}.nav.open{display:flex}.header-actions{gap:12px}.hero{grid-template-columns:1fr}.hero-copy{padding:65px 7vw 55px}.hero-image{min-height:390px}.section{padding:65px 6vw}.section-head{align-items:flex-start;flex-direction:column}.category-grid{grid-template-columns:1fr;gap:12px}.category-card,.category-card img{min-height:290px}.product-grid{gap:20px 12px}.quick-add{opacity:1;transform:none;padding:10px;font-size:9px}.product-info{font-size:12px}.story{grid-template-columns:1fr;padding:60px 7vw;gap:30px}.story-image{height:350px;order:2}.story-copy{order:1}.newsletter h2{font-size:34px}.footer-top{grid-template-columns:1fr 1fr}.footer-top>div:first-child{grid-column:1/-1}.copyright{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="announcement">Complimentary shipping on orders over ₹2,500</div>
+<header class="site-header">
+  <a class="brand" href="#" aria-label="Thread and Form home">THREAD <span>&</span> FORM</a>
+  <button class="icon-btn menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">MENU</button>
+  <nav class="nav" id="mainNav" aria-label="Main navigation">
+    <a href="#new">New arrivals</a><a href="#shop">Clothing</a><a href="#categories">Collections</a><a href="#story">Our story</a>
+  </nav>
+  <div class="header-actions"><button class="icon-btn" id="searchJump" aria-label="Go to product search">Search</button><button class="icon-btn" id="cartJump" aria-label="Shopping bag">Bag <span class="cart-count" id="cartCount">0</span></button></div>
+</header>
+<main>
+<section class="hero" id="new">
+  <div class="hero-copy"><p class="eyebrow">A quieter kind of everyday</p><h1>Wear what<br>feels like you.</h1><p>Thoughtful essentials, honest textures and easy silhouettes. Made to move with you, season after season.</p><a class="btn" href="#shop">Explore the collection</a></div>
+  <div class="hero-image" role="img" aria-label="Fashion collection editorial photograph"></div>
+</section>
+<section class="section" id="categories">
+  <div class="section-head"><div><p class="eyebrow">Find your everyday</p><h2>Made for your rhythm.</h2></div><p>Simple pieces. Considered details.</p></div>
+  <div class="category-grid">
+    <a class="category-card" href="#shop" data-category-link="Women"><img loading="lazy" src="assets/linen-shirt.jpg" alt="Contemporary women's clothing"><span class="category-label">For her ↗</span></a>
+    <a class="category-card" href="#shop" data-category-link="Men"><img loading="lazy" src="assets/oxford-shirt.jpg" alt="Modern casual clothing"><span class="category-label">For him ↗</span></a>
+    <a class="category-card" href="#shop" data-category-link="Textiles"><img loading="lazy" src="assets/cushion-cover.jpg" alt="Natural textile and home details"><span class="category-label">For home ↗</span></a>
+  </div>
+</section>
+<section class="section shop" id="shop">
+  <div class="section-head"><div><p class="eyebrow">The considered edit</p><h2>Pieces to live in.</h2></div><p id="resultCount">Showing all pieces</p></div>
+  <div class="filters" role="group" aria-label="Filter products">
+    <button class="filter-btn active" data-filter="All">All pieces</button><button class="filter-btn" data-filter="Women">Women</button><button class="filter-btn" data-filter="Men">Men</button><button class="filter-btn" data-filter="Textiles">Home textiles</button>
+    <input id="productSearch" aria-label="Search products" placeholder="Search pieces…" style="margin-left:auto;max-width:210px;min-width:130px;border:1px solid var(--line);padding:10px 12px;background:transparent;font-size:12px">
+  </div>
+  <div class="product-grid" id="productGrid" aria-live="polite"></div>
+</section>
+<section class="story" id="story">
+  <div class="story-image" role="img" aria-label="Minimal fashion editorial"></div>
+  <div class="story-copy"><p class="eyebrow">The thread behind it</p><h2>Less, but<br>thought through.</h2><p>We believe good design starts with the details: a fabric that feels right, a fit that gives you room, and pieces you reach for again and again. THREAD & FORM is a concept store built around that idea.</p><a class="text-link" href="#newsletter">Get to know us</a></div>
+</section>
+<section class="newsletter" id="newsletter"><p class="eyebrow">A note from us</p><h2>Good things, occasionally.</h2><p>Get collection updates and thoughtful notes. No noise.</p><form class="newsletter-form" id="newsletterForm"><input type="email" id="emailInput" placeholder="Your email address" aria-label="Your email address" required><button type="submit">Sign me up</button></form></section>
+</main>
+<footer class="footer"><div class="footer-top"><div><a class="brand" href="#">THREAD <span>&</span> FORM</a><p>Thoughtful essentials for everyday living.<br>Designed with intention. Worn with ease.</p></div><div><h4>Explore</h4><div class="footer-links"><a href="#shop">Shop all</a><a href="#categories">Collections</a><a href="#story">Our story</a></div></div><div><h4>Need help?</h4><div class="footer-links"><a href="mailto:hello@threadandform.example">Contact</a><a href="#newsletter">Newsletter</a><a href="#shop">Shipping information</a></div></div></div><div class="copyright"><span>© 2026 THREAD & FORM — CONCEPT STOREFRONT</span><span>Privacy · Terms · Instagram</span></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const products=[
+{id:1,name:"The Everyday Shirt",category:"Women",type:"Relaxed cotton poplin",price:1890,tag:"Bestseller",image:"assets/linen-shirt.jpg"},
+{id:2,name:"Form Straight Trouser",category:"Women",type:"Easy tailored fit",price:2490,tag:"New",image:"assets/sand-trousers.jpg"},
+{id:3,name:"The Daily Overshirt",category:"Men",type:"Soft textured cotton",price:2290,tag:"",image:"assets/cotton-overshirt.jpg"},
+{id:4,name:"Relaxed Weekend Tee",category:"Men",type:"Everyday organic cotton",price:990,tag:"Essential",image:"assets/cotton-tee.jpg"},
+{id:5,name:"Loom Cushion Cover",category:"Textiles",type:"Handfeel cotton blend",price:790,tag:"",image:"assets/cushion-cover.jpg"},
+{id:6,name:"Soft Cotton Throw",category:"Textiles",type:"Lightweight woven texture",price:1790,tag:"New",image:"assets/throw-blanket.jpg"},
+{id:7,name:"Everyday Layer Shirt",category:"Women",type:"A relaxed wardrobe layer",price:1690,tag:"",image:"assets/linen-tunic.jpg"},
+{id:8,name:"Classic Crew Sweat",category:"Men",type:"Soft brushed finish",price:1990,tag:"",image:"assets/oxford-shirt.jpg"}
+];
+let activeFilter="All",cart=0;
+const grid=document.getElementById("productGrid"),search=document.getElementById("productSearch");
+const money=n=>"₹"+n.toLocaleString("en-IN");
+function renderProducts(){
+ const term=search.value.trim().toLowerCase();
+ const shown=products.filter(p=>(activeFilter==="All"||p.category===activeFilter)&&(`${p.name} ${p.type} ${p.category}`).toLowerCase().includes(term));
+ document.getElementById("resultCount").textContent=`Showing ${shown.length} ${shown.length===1?"piece":"pieces"}`;
+ grid.innerHTML=shown.length?shown.map(p=>`<article class="product-card"><div class="product-image"><img loading="lazy" src="${p.image}" alt="${p.name}"><span class="tag">${p.tag||p.category}</span><button class="quick-add" data-add="${p.id}" aria-label="Add ${p.name} to bag">Add to bag +</button></div><div class="product-info"><div>${p.name}<small>${p.type}</small></div><span class="price">${money(p.price)}</span></div></article>`).join(""):'<p class="empty-state">No pieces found. Try another search or category.</p>';
+}
+document.querySelectorAll(".filter-btn").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");activeFilter=btn.dataset.filter;renderProducts()}));
+search.addEventListener("input",renderProducts);
+grid.addEventListener("click",e=>{const btn=e.target.closest("[data-add]");if(!btn)return;const p=products.find(x=>x.id===Number(btn.dataset.add));cart++;document.getElementById("cartCount").textContent=cart;showToast(`${p.name} added to your bag`);});
+document.querySelectorAll("[data-category-link]").forEach(a=>a.addEventListener("click",()=>{activeFilter=a.dataset.categoryLink;document.querySelectorAll(".filter-btn").forEach(b=>b.classList.toggle("active",b.dataset.filter===activeFilter));renderProducts()}));
+document.getElementById("menuToggle").addEventListener("click",()=>{const nav=document.getElementById("mainNav"),open=nav.classList.toggle("open");document.getElementById("menuToggle").setAttribute("aria-expanded",String(open));});
+document.querySelectorAll("#mainNav a").forEach(a=>a.addEventListener("click",()=>{document.getElementById("mainNav").classList.remove("open");document.getElementById("menuToggle").setAttribute("aria-expanded","false")}));
+document.getElementById("searchJump").addEventListener("click",()=>{document.getElementById("shop").scrollIntoView();search.focus()});
+document.getElementById("cartJump").addEventListener("click",()=>showToast(`Your bag has ${cart} ${cart===1?"item":"items"} (demo only)`));
+document.getElementById("newsletterForm").addEventListener("submit",e=>{e.preventDefault();showToast("Thanks for joining — this demo does not store email addresses.");e.target.reset()});
+let toastTimer;function showToast(message){const toast=document.getElementById("toast");toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),2600)}
+renderProducts();
+</script>
+</body>
+</html>

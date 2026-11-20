@@ -1,0 +1,71 @@
+/**
+ * THREAD & FORM — Design Tokens & Core Variables
+ */
+:root {
+  /* Color Palette */
+  --ink: #1a2420;
+  --forest: #234b3d;
+  --forest-dark: #153228;
+  --forest-light: #2e624f;
+  --sage: #dde5dd;
+  --cream: #f8f6f0;
+  --paper: #ffffff;
+  --sand: #eae4d8;
+  --muted: #67746b;
+  --line: #e2e6df;
+  --gold: #c2935b;
+  --gold-dark: #9a6d36;
+  --alert: #b84a39;
+  --success: #287d54;
+
+  /* Layout & Elevations */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  --content: 1240px;
+  --shadow-sm: 0 4px 12px rgba(26, 36, 32, 0.06);
+  --shadow-md: 0 8px 24px rgba(26, 36, 32, 0.08);
+  --shadow-lg: 0 16px 40px rgba(26, 36, 32, 0.12);
+
+  /* Typography */
+  --serif: Georgia, "Times New Roman", serif;
+  --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button, input, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
