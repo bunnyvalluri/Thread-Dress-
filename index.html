@@ -21,12 +21,8 @@
 <body>
 
   <!-- TOP LIVE STREAM TICKER -->
-  <aside class="top-bar" aria-label="Real-time notification ticker">
-    <div class="live-pulse">
-      <span class="pulse-dot"></span>
-      <span class="pulse-label">REAL-TIME STOREFRONT</span>
-    </div>
-    <div class="top-ticker" id="topTickerText">⚡ Multi-tab synchronization active · Complimentary shipping on orders above ₹2,500</div>
+  <aside class="top-bar" aria-label="Store announcement">
+    <div class="top-ticker" id="topTickerText">⚡ Complimentary express shipping across India on orders above ₹2,500 · 14-day hassle-free returns</div>
   </aside>
 
   <!-- STICKY HEADER -->
@@ -34,7 +30,6 @@
     <div class="header-inner">
       <div class="brand-wrap">
         <a href="#" class="brand">THREAD <span>&</span> FORM</a>
-        <span class="badge-live">Live Storefront</span>
       </div>
 
       <nav class="main-nav" aria-label="Main Navigation">
@@ -48,7 +43,7 @@
       <div class="header-actions">
         <div class="search-box">
           <span class="search-icon">🔍</span>
-          <input type="search" id="liveSearchInput" class="search-input" placeholder="Real-time search..." aria-label="Search items in real time">
+          <input type="search" id="liveSearchInput" class="search-input" placeholder="Search collection..." aria-label="Search items">
         </div>
         <button class="btn-icon" id="openBagBtn" onclick="toggleCartDrawer(true)" aria-label="View shopping bag">
           <span>Bag</span>
@@ -64,6 +59,9 @@
 
     <!-- Mobile Nav Slide-Down Drawer -->
     <nav class="mobile-nav-drawer" id="mobileNav" aria-label="Mobile Navigation">
+      <div class="mobile-drawer-search">
+        <input type="search" placeholder="Search collection..." oninput="document.getElementById('liveSearchInput').value = this.value; applySortAndFilter();">
+      </div>
       <a href="#collection" onclick="filterCategory('All'); toggleMobileMenu(false);">The Collection <span>→</span></a>
       <a href="#collection" onclick="filterCategory('Women'); toggleMobileMenu(false);">Women's Apparel <span>→</span></a>
       <a href="#collection" onclick="filterCategory('Men'); toggleMobileMenu(false);">Men's Essentials <span>→</span></a>
@@ -76,16 +74,11 @@
   <main class="container">
     <section class="hero">
       <div class="hero-copy">
-        <span class="eyebrow">⚡ Thoughtful Everyday Essentials</span>
+        <span class="eyebrow">Autumn / Winter 2026</span>
         <h1>Made to wear.<br>Made to last.</h1>
-        <p>Considered clothing and natural home textiles, designed around comfort, tactile quality and sustainable design practices.</p>
+        <p>Considered clothing and natural home textiles, designed around comfort, tactile quality and sustainable craft.</p>
         <div class="hero-actions">
           <a href="#collection" class="btn-primary" onclick="filterCategory('All')">Explore Collection ↓</a>
-          <button class="btn-outline" onclick="triggerSimulatedOrder()">Quick Demo Checkout</button>
-        </div>
-        <div class="hero-sync-pill">
-          <span class="pulse-dot"></span>
-          <span id="heroStockTicker">Catalog synchronized across all active browser sessions in real time.</span>
         </div>
       </div>
       <div class="hero-art" role="img" aria-label="Editorial textiles and sustainable fashion preview">
