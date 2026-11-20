@@ -1,21 +1,28 @@
 {
-  "name": "thread-and-form",
-  "version": "1.0.0",
-  "description": "THREAD & FORM — Production-Ready Real-Time Apparel & Home Textiles Experience",
+  "name": "thread-dress",
+  "version": "2.0.0",
+  "description": "THREAD & FORM — Production Real-Time Apparel & Home Textiles Platform",
   "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bunnyvalluri/Thread-Dress-.git"
+  },
   "scripts": {
     "start": "python -m http.server 3000",
     "serve": "npx serve -l 3000 .",
-    "test": "echo \"Running client test suites in prototypes/week6-qa-testing.html...\""
+    "dev": "npx live-server --port=3000"
   },
   "keywords": [
     "ecommerce",
     "apparel",
-    "textiles",
+    "fashion",
     "real-time",
     "responsive",
-    "frontend-prototype"
+    "mobile-first",
+    "broadcast-channel",
+    "pwa",
+    "vanilla-js"
   ],
-  "author": "THREAD & FORM Engineering",
+  "author": "Bunny Valluri",
   "license": "MIT"
 }
