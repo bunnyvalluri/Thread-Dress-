@@ -34,12 +34,12 @@
         <a href="#" class="brand">THREAD <span>&</span> FORM</a>
       </div>
 
-      <nav class="main-nav" aria-label="Main Navigation">
-        <a href="#collection" class="active" onclick="filterCategory('All')">The Collection</a>
-        <a href="#collection" onclick="filterCategory('Women')">Women</a>
-        <a href="#collection" onclick="filterCategory('Men')">Men</a>
-        <a href="#collection" onclick="filterCategory('Home')">Home Textiles</a>
-        <a href="#story">Fabrics & Craft</a>
+      <nav class="main-nav" id="desktopNav" aria-label="Main Navigation">
+        <a href="#collection" class="active" data-nav="All" onclick="filterCategory('All')">The Collection</a>
+        <a href="#collection" data-nav="Women" onclick="filterCategory('Women')">Women</a>
+        <a href="#collection" data-nav="Men" onclick="filterCategory('Men')">Men</a>
+        <a href="#collection" data-nav="Home" onclick="filterCategory('Home')">Home Textiles</a>
+        <a href="#story" data-nav="Story" onclick="filterCategory('Story')">Fabrics &amp; Craft</a>
       </nav>
 
       <div class="header-actions">

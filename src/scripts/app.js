@@ -535,10 +535,25 @@ function applySortAndFilter() {
 }
 
 function filterCategory(cat) {
+  if (cat === "Story") {
+    document.querySelectorAll(".main-nav a").forEach(link => {
+      link.classList.toggle("active", link.dataset.nav === "Story");
+    });
+    return;
+  }
+
   activeCategory = cat;
+
+  // Sync Desktop Filter Chips
   document.querySelectorAll("#filterChips .chip").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.cat === cat);
   });
+
+  // Sync Desktop Header Nav Links
+  document.querySelectorAll(".main-nav a").forEach(link => {
+    link.classList.toggle("active", link.dataset.nav === cat);
+  });
+
   applySortAndFilter();
 }
 
