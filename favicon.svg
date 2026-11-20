@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient (Forest Green) -->
+    <linearGradient id="forestGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f4a3b"/>
+      <stop offset="50%" stop-color="#153228"/>
+      <stop offset="100%" stop-color="#0c1f18"/>
+    </linearGradient>
+
+    <!-- Warm Artisan Gold Gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5d699"/>
+      <stop offset="45%" stop-color="#c2935b"/>
+      <stop offset="100%" stop-color="#996f37"/>
+    </linearGradient>
+
+    <!-- Soft Gold Sheen -->
+    <linearGradient id="goldSheen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff8eb"/>
+      <stop offset="100%" stop-color="#d9a868"/>
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="subtleShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#06120e" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Circular Base Badge -->
+  <circle cx="256" cy="256" r="238" fill="url(#forestGrad)" stroke="url(#goldGrad)" stroke-width="14"/>
+
+  <!-- Inner Delicate Stitch Accent Ring -->
+  <circle cx="256" cy="256" r="218" fill="none" stroke="#e0b87c" stroke-width="2.5" stroke-opacity="0.5" stroke-dasharray="8 6"/>
+
+  <!-- Woven Thread Curve (Background Loop) -->
+  <path d="M 140 380 C 90 320 90 220 180 230 C 260 240 330 235 345 235" 
+        fill="none" 
+        stroke="url(#goldGrad)" 
+        stroke-width="18" 
+        stroke-linecap="round" 
+        filter="url(#subtleShadow)" />
+
+  <!-- Needle & Stately "T" Stem (Vertical Axis) -->
+  <rect x="236" y="165" width="40" height="205" rx="20" fill="url(#goldSheen)" filter="url(#subtleShadow)"/>
+
+  <!-- Top Crossbar of T -->
+  <rect x="125" y="135" width="262" height="34" rx="17" fill="url(#goldSheen)" filter="url(#subtleShadow)"/>
+
+  <!-- F Mid-Bar (Extending to the right like a fabric swatch) -->
+  <rect x="260" y="242" width="95" height="30" rx="15" fill="url(#goldSheen)" filter="url(#subtleShadow)"/>
+
+  <!-- Needle Eye Accent at Top of Stem -->
+  <ellipse cx="256" cy="115" rx="8" ry="12" fill="#153228" stroke="url(#goldGrad)" stroke-width="3"/>
+
+  <!-- Interlocking Front Thread Loop (Wrapping around bottom stem) -->
+  <path d="M 245 355 C 210 400 140 380 165 320" 
+        fill="none" 
+        stroke="url(#goldGrad)" 
+        stroke-width="12" 
+        stroke-linecap="round"/>
+
+  <!-- Craft Star Accent -->
+  <polygon points="370,110 373,117 380,120 373,123 370,130 367,123 360,120 367,117" fill="#fff4d4"/>
+</svg>
