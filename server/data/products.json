@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "name": "Linen Everyday Shirt",
+    "category": "Women",
+    "price": 1890,
+    "tag": "BESTSELLER",
+    "stock": 3,
+    "image": "src/assets/images/linen-shirt.jpg",
+    "desc": "Relaxed-fit pure linen shirt engineered for cool everyday layering."
+  },
+  {
+    "id": 2,
+    "name": "Classic Cotton Tee",
+    "category": "Men",
+    "price": 890,
+    "tag": "ESSENTIAL",
+    "stock": 14,
+    "image": "src/assets/images/cotton-tee.jpg",
+    "desc": "Heavyweight organic combed cotton with double-needle ribbed collar."
+  },
+  {
+    "id": 3,
+    "name": "Textured Cushion Cover",
+    "category": "Home",
+    "price": 650,
+    "tag": "HOME ESSENTIAL",
+    "stock": 8,
+    "image": "src/assets/images/cushion-cover.jpg",
+    "desc": "Tactile slub weave with hidden brass zipper for calm living spaces."
+  },
+  {
+    "id": 4,
+    "name": "Relaxed Sand Trousers",
+    "category": "Women",
+    "price": 2190,
+    "tag": "NEW ARRIVAL",
+    "stock": 3,
+    "image": "src/assets/images/sand-trousers.jpg",
+    "desc": "Pleated wide-leg trouser with elasticated rear waistband and natural drape."
+  },
+  {
+    "id": 5,
+    "name": "Oxford Casual Shirt",
+    "category": "Men",
+    "price": 1690,
+    "tag": "EVERYDAY",
+    "stock": 9,
+    "image": "src/assets/images/oxford-shirt.jpg",
+    "desc": "Structured pinpoint Oxford cotton with button-down collar."
+  },
+  {
+    "id": 6,
+    "name": "Woven Table Runner",
+    "category": "Home",
+    "price": 990,
+    "tag": "HANDWOVEN",
+    "stock": 6,
+    "image": "src/assets/images/table-runner.jpg",
+    "desc": "Handloom textured table runner finished with natural fringed edges."
+  },
+  {
+    "id": 7,
+    "name": "Soft Knit Olive Layer",
+    "category": "Women",
+    "price": 1490,
+    "tag": "POPULAR",
+    "stock": 4,
+    "image": "src/assets/images/knit-layer.jpg",
+    "desc": "Feather-light fine knit spun from breathable combed cotton yarns."
+  },
+  {
+    "id": 8,
+    "name": "Weekend Cotton Shorts",
+    "category": "Men",
+    "price": 1190,
+    "tag": "SLOW LIVING",
+    "stock": 12,
+    "image": "src/assets/images/cotton-shorts.jpg",
+    "desc": "Drawstring twill shorts tailored for leisurely weekends and travel."
+  },
+  {
+    "id": 9,
+    "name": "Relaxed Cotton Overshirt",
+    "category": "Women",
+    "price": 1899,
+    "tag": "SIGNATURE",
+    "stock": 2,
+    "image": "src/assets/images/cotton-overshirt.jpg",
+    "desc": "Utility pockets and soft sand-tone washed twill for trans-seasonal style."
+  },
+  {
+    "id": 10,
+    "name": "Minimalist Linen Tunic",
+    "category": "Women",
+    "price": 2299,
+    "tag": "TIMELESS",
+    "stock": 7,
+    "image": "src/assets/images/linen-tunic.jpg",
+    "desc": "High-grade French flax tunic with relaxed raglan sleeve cut."
+  },
+  {
+    "id": 11,
+    "name": "Raw Organic Throw Blanket",
+    "category": "Home",
+    "price": 1790,
+    "tag": "ARTISAN",
+    "stock": 6,
+    "image": "src/assets/images/throw-blanket.jpg",
+    "desc": "Undyed biological cotton woven with waffle texture for warmth."
+  },
+  {
+    "id": 12,
+    "name": "Daily Linen Overshirt",
+    "category": "Men",
+    "price": 2290,
+    "tag": "PREMIUM",
+    "stock": 4,
+    "image": "src/assets/images/daily-overshirt.jpg",
+    "desc": "Crisp yet breathable linen layer with horn buttons and chest pockets."
+  },
+  {
+    "id": 13,
+    "name": "Structured Linen Blazer",
+    "category": "Women",
+    "price": 3490,
+    "tag": "EDITORIAL",
+    "stock": 3,
+    "image": "src/assets/images/linen-blazer.jpg",
+    "desc": "Tailored unlined summer blazer woven from raw Normandy flax linen."
+  },
+  {
+    "id": 14,
+    "name": "Wide-Leg Linen Culottes",
+    "category": "Women",
+    "price": 2190,
+    "tag": "ORGANIC",
+    "stock": 6,
+    "image": "src/assets/images/linen-culottes.jpg",
+    "desc": "Airy cropped wide trousers in breathable natural oat linen with deep pockets."
+  },
+  {
+    "id": 15,
+    "name": "Draped Silk-Cotton Maxi Dress",
+    "category": "Women",
+    "price": 3890,
+    "tag": "LIMITED RUN",
+    "stock": 2,
+    "image": "src/assets/images/silk-dress.jpg",
+    "desc": "Fluid tiered ankle-length dress woven from organic cotton and mulberry silk."
+  },
+  {
+    "id": 16,
+    "name": "Band-Collar Linen Kurta Shirt",
+    "category": "Men",
+    "price": 1990,
+    "tag": "ARTISAN",
+    "stock": 8,
+    "image": "src/assets/images/kurta-shirt.jpg",
+    "desc": "Contemporary mandarin-collar shirt in breathable washed natural linen."
+  },
+  {
+    "id": 17,
+    "name": "Tailored Pleated Chinos",
+    "category": "Men",
+    "price": 2490,
+    "tag": "NEW ARRIVAL",
+    "stock": 5,
+    "image": "src/assets/images/pleated-chinos.jpg",
+    "desc": "Relaxed-tapered organic twill trousers with double front pleats."
+  },
+  {
+    "id": 18,
+    "name": "Waffle Knit Crewneck",
+    "category": "Men",
+    "price": 1890,
+    "tag": "WARM LAYER",
+    "stock": 7,
+    "image": "src/assets/images/waffle-crewneck.jpg",
+    "desc": "Midweight textured honeycomb knit spun from pure combed organic cotton."
+  },
+  {
+    "id": 19,
+    "name": "Indigo Selvedge Chambray Shirt",
+    "category": "Men",
+    "price": 2190,
+    "tag": "SLOW LIVING",
+    "stock": 4,
+    "image": "src/assets/images/chambray-shirt.jpg",
+    "desc": "Vintage-loomed indigo chambray with contrast bone buttons and chest pocket."
+  },
+  {
+    "id": 20,
+    "name": "Washed Linen Duvet Set",
+    "category": "Home",
+    "price": 4290,
+    "tag": "LUXURY SLEEP",
+    "stock": 3,
+    "image": "src/assets/images/duvet-set.jpg",
+    "desc": "Breathable stone-washed European flax bedding set for temperate year-round rest."
+  },
+  {
+    "id": 21,
+    "name": "Hand-Spun Cotton Bath Towels",
+    "category": "Home",
+    "price": 1290,
+    "tag": "ECO ESSENTIAL",
+    "stock": 11,
+    "image": "src/assets/images/bath-towels.jpg",
+    "desc": "Ultra-absorbent plush waffle weave bath sheet in unbleached ecru."
+  },
+  {
+    "id": 22,
+    "name": "Stoneware Ceramic Incense Vessel",
+    "category": "Home",
+    "price": 850,
+    "tag": "STUDIO CRAFT",
+    "stock": 9,
+    "image": "src/assets/images/ceramic-vessel.jpg",
+    "desc": "Wheel-thrown speckled clay vessel with matte botanical wood-ash glaze."
+  },
+  {
+    "id": 23,
+    "name": "Botanical Dyed Linen Napkins",
+    "category": "Home",
+    "price": 1150,
+    "tag": "HANDMADE",
+    "stock": 6,
+    "image": "src/assets/images/linen-napkins.jpg",
+    "desc": "Set of 4 earthy marigold and indigo hand-dyed table napkins with frayed selvedge."
+  },
+  {
+    "id": 24,
+    "name": "Hand-Knotted Jute Floor Runner",
+    "category": "Home",
+    "price": 2790,
+    "tag": "NATURAL FIBER",
+    "stock": 5,
+    "image": "src/assets/images/jute-runner.jpg",
+    "desc": "Heavyweight braided golden jute runner for textured hallway warmth and durability."
+  }
+]

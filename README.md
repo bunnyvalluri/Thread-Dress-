@@ -84,6 +84,21 @@ Crafted by **[VALLURI RAHUL](https://valluri-rahul-portfolio.vercel.app/)**.
 
 ```text
 code/
+├── server/                      # Production REST & WebSocket Backend Engine
+│   ├── config/                  # Environment variables, CORS, ports & thresholds
+│   ├── controllers/             # Product, Order, Cart, Concierge & Health controllers
+│   ├── data/                    # JSON database seed & atomic thread-safe store
+│   │   ├── products.json        # 24-piece master product catalog data
+│   │   └── store.js             # In-memory + disk-persisted state management
+│   ├── middleware/              # Error handling, request logger, payload validators
+│   ├── routes/                  # Modular v1 API routes (products, orders, cart, etc.)
+│   ├── services/                # Business logic, inventory reservation, WebSockets
+│   ├── app.js                   # Express 5 application factory & static storefront hosting
+│   └── server.js                # HTTP + WebSocket server bootstrap & graceful shutdown
+│
+├── tests/                       # Automated test suite (node:test & node:assert)
+│   └── api.test.js              # Integration tests for health, catalog, cart, orders
+│
 ├── prototypes/                  # Historical weekly prototypes (clean & isolated)
 │   ├── week-01-concept.html                    # Week 1: Brand Concept & Storytelling
 │   ├── week-02-design-system.html              # Week 2: UI/UX Wireframes & Design System
@@ -190,10 +205,6 @@ if (SYNC_CHANNEL) {
 
 ## 🚀 Getting Started
 
-### Prerequisites
-
-You only need a modern web browser and a lightweight local HTTP server (Python, Node.js, or VS Code Live Server).
-
 ### 1. Clone the Repository
 
 ```bash
@@ -201,26 +212,55 @@ git clone https://github.com/bunnyvalluri/Thread-Dress-.git
 cd Thread-Dress-
 ```
 
-### 2. Launch Local Server
+### 2. Install Dependencies & Start Production Server
 
-**Option A: Using Python (Recommended - Built-in)**
 ```bash
-python -m http.server 3000
-```
+# Install dependencies
+npm install
 
-**Option B: Using Node.js (npx)**
-```bash
-npx serve -l 3000 .
-```
+# Start Production Backend & Storefront Server (Port 3000)
+npm start
 
-**Option C: Using Live Server**
-```bash
-npx live-server --port=3000
+# Or start in hot-reload development mode
+npm run dev
+
+# Run automated backend test suite
+npm test
 ```
 
 ### 3. Open in Browser
 
-Navigate to **[http://localhost:3000/](http://localhost:3000/)**
+- **Interactive Storefront**: [http://localhost:3000/](http://localhost:3000/)
+- **REST API Base**: [http://localhost:3000/api/v1](http://localhost:3000/api/v1)
+- **Real-Time WebSocket**: `ws://localhost:3000/ws`
+- **System Health & Metrics**: [http://localhost:3000/api/v1/health](http://localhost:3000/api/v1/health)
+
+---
+
+## 📡 REST API & WebSocket Specifications
+
+### Endpoints (Base URL: `/api/v1`)
+
+| Method | Endpoint | Description | Payload / Query |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/health` | System uptime, memory metrics & active telemetry | None |
+| `GET` | `/products` | Filterable, sortable 24-piece catalog | `?category=Women&search=linen&sort=low` |
+| `GET` | `/products/:id` | Single product details with live shopper viewer count | None |
+| `PATCH` | `/products/:id/stock` | Update stock level & broadcasts WebSocket update | `{ "stock": 10 }` |
+| `POST` | `/cart/validate` | Validates stock, calculates totals & free delivery discount | `{ "items": [{ "id": 1, "qty": 1 }] }` |
+| `POST` | `/orders` | Creates an order, reserves stock & starts fulfillment pipeline | `{ "customer": {...}, "items": [...] }` |
+| `GET` | `/orders/:id` | Real-time order fulfillment status & 4-stage timeline | None |
+| `GET` | `/orders` | Lists recent orders with fulfillment history | None |
+| `POST` | `/concierge/chat` | AI / heuristic natural language styling & sizing concierge | `{ "message": "What size should I get?" }` |
+
+### WebSocket Real-Time Channels (`ws://localhost:3000/ws`)
+
+| Event Type | Direction | Payload Example | Purpose |
+| :--- | :--- | :--- | :--- |
+| `INVENTORY_UPDATED` | Server → Client | `{ "productId": 4, "stock": 2 }` | Instant real-time stock sync across all open storefront tabs |
+| `SOCIAL_EVENT` | Server → Client | `{ "city": "Jaipur", "item": "Linen Blazer", "action": "purchased" }` | Real-time social proof toast broadcasts |
+| `SUBSCRIBE_ORDER` | Client → Server | `{ "type": "SUBSCRIBE_ORDER", "orderId": "TF-48291" }` | Subscribes client to live tracking updates for placed order |
+| `ORDER_STATUS_UPDATED` | Server → Client | `{ "order": { "status": "IN_TRANSIT", "currentStep": 3 } }` | Live progression of order fulfillment timeline |
 
 ---
 

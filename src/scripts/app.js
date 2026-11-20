@@ -662,8 +662,63 @@ function runLiveTicker() {
 }
 
 /* ==========================================================================
-   5. REAL-TIME ORDER FULFILLMENT TRACKER
+   5. REAL-TIME ORDER FULFILLMENT TRACKER & WEBSOCKET ENGINE
    ========================================================================== */
+let wsClient = null;
+
+function connectRealtimeTelemetry() {
+  if (typeof WebSocket === 'undefined' || location.protocol === 'file:') return;
+  try {
+    const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${protocol}//${location.host}/ws`;
+    wsClient = new WebSocket(wsUrl);
+
+    wsClient.onmessage = (event) => {
+      try {
+        const msg = JSON.parse(event.data);
+        if (msg.type === 'INVENTORY_UPDATED') {
+          const product = catalog.find(p => p.id === msg.productId);
+          if (product) {
+            product.stock = msg.stock;
+            applySortAndFilter();
+          }
+        } else if (msg.type === 'SOCIAL_EVENT' && msg.event) {
+          showSocialNotification(`Someone in <strong>${msg.event.city}</strong> just ${msg.event.action} <strong>${msg.event.item}</strong>.`);
+        } else if (msg.type === 'ORDER_STATUS_UPDATED' && msg.order) {
+          updateOrderTrackerUI(msg.order);
+        }
+      } catch (err) {}
+    };
+
+    wsClient.onclose = () => {
+      setTimeout(connectRealtimeTelemetry, 5000);
+    };
+  } catch (err) {}
+}
+
+function updateOrderTrackerUI(order) {
+  const orderIdEl = document.getElementById("trackerOrderId");
+  if (orderIdEl) orderIdEl.textContent = `Order #${order.id}`;
+
+  const s1 = document.getElementById("step1");
+  const s2 = document.getElementById("step2");
+  const s3 = document.getElementById("step3");
+  const s4 = document.getElementById("step4");
+  const time2 = document.getElementById("time2");
+
+  if (!s1 || !s2 || !s3 || !s4) return;
+
+  if (order.currentStep >= 1) s1.className = "timeline-step completed";
+  if (order.currentStep >= 2) {
+    s2.className = "timeline-step completed";
+    if (time2) time2.textContent = "Dispatched via Priority Courier";
+  } else if (order.currentStep === 1) {
+    s2.className = "timeline-step active";
+  }
+  if (order.currentStep >= 3) s3.className = "timeline-step active";
+  if (order.currentStep >= 4) s4.className = "timeline-step completed";
+}
+
 function initiateCheckout() {
   if (!cart.length) {
     alert("Your bag is currently empty. Please add items to proceed.");
@@ -673,10 +728,14 @@ function initiateCheckout() {
   triggerSimulatedOrder();
 }
 
-function triggerSimulatedOrder() {
-  const orderId = "TF-" + Math.floor(10000 + Math.random() * 90000);
+async function triggerSimulatedOrder() {
+  const currentItems = [...cart];
+  cart = [];
+  saveCart();
+
+  const orderIdFallback = "TF-" + Math.floor(10000 + Math.random() * 90000);
   const orderIdEl = document.getElementById("trackerOrderId");
-  if (orderIdEl) orderIdEl.textContent = `Order #${orderId}`;
+  if (orderIdEl) orderIdEl.textContent = `Order #${orderIdFallback}`;
 
   const s1 = document.getElementById("step1");
   const s2 = document.getElementById("step2");
@@ -694,18 +753,42 @@ function triggerSimulatedOrder() {
 
   toggleOrderModal(true);
 
+  // Attempt backend API order submission
+  try {
+    const res = await fetch('/api/v1/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customer: { name: 'Storefront Guest', city: 'Bengaluru' },
+        items: currentItems.length ? currentItems : [{ id: 1, qty: 1, size: 'M' }]
+      })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      const realOrder = data.data;
+      if (orderIdEl) orderIdEl.textContent = `Order #${realOrder.id}`;
+
+      // Subscribe to real-time WebSocket fulfillment lifecycle
+      if (wsClient && wsClient.readyState === WebSocket.OPEN) {
+        wsClient.send(JSON.stringify({ type: 'SUBSCRIBE_ORDER', orderId: realOrder.id }));
+      }
+      return;
+    }
+  } catch (e) {
+    // Graceful offline fallback
+  }
+
+  // Client-side fallback simulation if backend is not reachable
   setTimeout(() => {
     if (s2 && s3) {
       s2.className = "timeline-step completed";
       s3.className = "timeline-step active";
     }
     if (typeof showSocialNotification === 'function') {
-      showSocialNotification(`📦 Order ${orderId}: Packed and handed to Priority Courier.`);
+      showSocialNotification(`📦 Order ${orderIdFallback}: Packed and handed to Priority Courier.`);
     }
   }, 4000);
-
-  cart = [];
-  saveCart();
 }
 
 function toggleOrderModal(show) {
@@ -733,7 +816,7 @@ function toggleChat() {
   if (box) box.classList.toggle("open");
 }
 
-function handleChatSubmit(e) {
+async function handleChatSubmit(e) {
   e.preventDefault();
   const input = document.getElementById("chatInput");
   const msgs = document.getElementById("chatMessages");
@@ -755,23 +838,42 @@ function handleChatSubmit(e) {
   msgs.appendChild(typing);
   msgs.scrollTop = msgs.scrollHeight;
 
-  setTimeout(() => {
-    typing.remove();
+  let replyText = null;
+
+  // Attempt backend API Concierge call
+  try {
+    const res = await fetch('/api/v1/concierge/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.data?.reply) replyText = data.data.reply;
+    }
+  } catch (err) {
+    // Fallback to client heuristic
+  }
+
+  if (!replyText) {
     const lower = text.toLowerCase();
-    let reply = "Thank you for reaching out! Our team is available 24/7 to assist with fabric choices, sizing and real-time orders.";
+    replyText = "Thank you for reaching out! Our team is available 24/7 to assist with fabric choices, sizing and real-time orders.";
     for (const item of conciergeKnowledge) {
       if (item.keys.some(k => lower.includes(k))) {
-        reply = item.answer;
+        replyText = item.answer;
         break;
       }
     }
+  }
 
+  setTimeout(() => {
+    typing.remove();
     const botMsg = document.createElement("div");
     botMsg.className = "msg bot";
-    botMsg.textContent = reply;
+    botMsg.textContent = replyText;
     msgs.appendChild(botMsg);
     msgs.scrollTop = msgs.scrollHeight;
-  }, 700);
+  }, 400);
 }
 
 /* ==========================================================================
@@ -858,11 +960,32 @@ document.addEventListener("click", (e) => {
 });
 
 // Global Initialization
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   updateCatalogCounts();
   loadCart();
   applySortAndFilter();
   runLiveTicker();
+  connectRealtimeTelemetry();
+
+  // Hydrate live inventory from backend API if available
+  if (location.protocol !== 'file:') {
+    try {
+      const res = await fetch('/api/v1/products');
+      if (res.ok) {
+        const payload = await res.json();
+        if (payload.data && Array.isArray(payload.data)) {
+          payload.data.forEach(serverProduct => {
+            const local = catalog.find(p => p.id === serverProduct.id);
+            if (local) local.stock = serverProduct.stock;
+          });
+          applySortAndFilter();
+          updateCatalogCounts();
+        }
+      }
+    } catch (e) {
+      // Running offline or static server
+    }
+  }
 
   const searchInput = document.getElementById("liveSearchInput");
   if (searchInput) {

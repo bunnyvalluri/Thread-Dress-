@@ -2,15 +2,16 @@
   "name": "thread-dress",
   "version": "2.0.0",
   "description": "THREAD & FORM — Production Real-Time Apparel & Home Textiles Platform",
-  "main": "index.html",
+  "main": "server/server.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/bunnyvalluri/Thread-Dress-.git"
   },
   "scripts": {
-    "start": "python -m http.server 3000",
-    "serve": "npx serve -l 3000 .",
-    "dev": "npx live-server --port=3000"
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "test": "node --test tests/api.test.js",
+    "serve:static": "npx serve -l 3000 ."
   },
   "keywords": [
     "ecommerce",
@@ -24,5 +25,11 @@
     "vanilla-js"
   ],
   "author": "Bunny Valluri",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "helmet": "^8.3.0",
+    "ws": "^8.23.0"
+  }
 }
