@@ -62,15 +62,6 @@ function closeProductModal(e) {
   if (e.target.id === "productModal") toggleProductModal(false);
 }
 
-function toggleStudioView() {
-  const panel = document.getElementById("studioPanel");
-  if (!panel) return;
-  panel.classList.toggle("show");
-  if (panel.classList.contains("show")) {
-    panel.scrollIntoView({ behavior: "smooth" });
-  }
-}
-
 function toggleMobileMenu(forceState) {
   const btn = document.getElementById("mobileMenuBtn");
   const nav = document.getElementById("mobileNav");

@@ -15,12 +15,9 @@
   <aside class="top-bar" aria-label="Real-time notification ticker">
     <div class="live-pulse">
       <span class="pulse-dot"></span>
-      <span class="pulse-label">REAL-TIME SYSTEM</span>
+      <span class="pulse-label">REAL-TIME STOREFRONT</span>
     </div>
-    <div class="top-ticker" id="topTickerText">⚡ Multi-tab synchronization active · Free shipping over ₹2,500</div>
-    <button class="mode-switch-btn" id="toggleStudioBtn" onclick="toggleStudioView()">
-      <span>📐 Architecture</span>
-    </button>
+    <div class="top-ticker" id="topTickerText">⚡ Multi-tab synchronization active · Complimentary shipping on orders above ₹2,500</div>
   </aside>
 
   <!-- STICKY HEADER -->
@@ -63,56 +60,8 @@
       <a href="#collection" onclick="filterCategory('Men'); toggleMobileMenu(false);">Men's Essentials <span>→</span></a>
       <a href="#collection" onclick="filterCategory('Home'); toggleMobileMenu(false);">Home Textiles <span>→</span></a>
       <a href="#story" onclick="toggleMobileMenu(false);">Fabrics & Craftsmanship <span>→</span></a>
-      <a href="#studioPanel" onclick="toggleStudioView(); toggleMobileMenu(false);" style="color:var(--forest); font-weight:700;">📐 Architecture Inspector (Weeks 1-6) <span>→</span></a>
     </nav>
   </header>
-
-  <!-- ARCHITECTURE & SPECIFICATION INSPECTOR (Weeks 1 - 6) -->
-  <div class="container">
-    <section class="studio-panel" id="studioPanel">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <span class="eyebrow">Academic & Engineering Progression</span>
-        <button onclick="toggleStudioView()" style="border:none; background:none; cursor:pointer; font-size:16px;">✕ Close</button>
-      </div>
-      <h2 style="font-family:var(--serif); font-size:26px; margin-bottom:8px;">THREAD & FORM Unified Prototype Architecture</h2>
-      <p style="color:var(--muted); font-size:13px; max-width:800px;">
-        This production-ready application integrates all milestones into a modular, responsive, real-time client-side system. Every individual milestone prototype is archived in the <code>prototypes/</code> directory.
-      </p>
-
-      <div class="studio-grid">
-        <div class="studio-card">
-          <span class="studio-badge">Milestone 1</span>
-          <h3>Concept & Storytelling</h3>
-          <p>Editorial branding, natural palette, responsive wireframe layout and core product categorization.</p>
-          <a class="studio-link" href="milestones/milestone-01-concept.html" target="_blank">Launch Milestone 1 Standalone ↗</a>
-        </div>
-        <div class="studio-card">
-          <span class="studio-badge">Milestone 2</span>
-          <h3>UI/UX & Wireframes</h3>
-          <p>Design token typography, responsive color swatches, user journey mapping, and wireframe specs.</p>
-          <a class="studio-link" href="milestones/milestone-02-design-system.html" target="_blank">Launch Milestone 2 Standalone ↗</a>
-        </div>
-        <div class="studio-card">
-          <span class="studio-badge">Milestone 3</span>
-          <h3>Responsive Frontend</h3>
-          <p>Fluid grid layout, modern editorial imagery, mobile drawer navigation, and accessible size selector.</p>
-          <a class="studio-link" href="milestones/milestone-03-responsive-storefront.html" target="_blank">Launch Milestone 3 Standalone ↗</a>
-        </div>
-        <div class="studio-card">
-          <span class="studio-badge">Milestone 4</span>
-          <h3>Interactive System</h3>
-          <p>Instant category filters, sorting algorithms, dynamic shopping bag, modal detail views, and localStorage.</p>
-          <a class="studio-link" href="milestones/milestone-04-interactive-engine.html" target="_blank">Launch Milestone 4 Standalone ↗</a>
-        </div>
-        <div class="studio-card">
-          <span class="studio-badge">Milestone 5</span>
-          <h3>QA & Test Suite</h3>
-          <p>Automated browser-side checks, checklist validation, test metrics, and optimization recommendations.</p>
-          <a class="studio-link" href="milestones/milestone-05-quality-assurance.html" target="_blank">Launch Milestone 5 Standalone ↗</a>
-        </div>
-      </div>
-    </section>
-  </div>
 
   <!-- HERO SECTION -->
   <main class="container">
