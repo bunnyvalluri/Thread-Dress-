@@ -33,12 +33,27 @@ class OrderService {
 
     // Generate Order Record
     const orderId = 'TF-' + Math.floor(10000 + Math.random() * 90000);
+    const now = new Date();
+    const estDelivery = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
+    const estFormatted = estDelivery.toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' });
+    const timeFormatted = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
     const order = {
       id: orderId,
       customer: {
         name: customer.name || 'Storefront Guest',
         email: customer.email || 'guest@threadandform.com',
-        city: customer.city || 'Bengaluru'
+        phone: customer.phone || '+91 98765 43210',
+        address: customer.address || 'Flat 402, Natural Living Apts',
+        city: customer.city || 'Bengaluru',
+        pincode: customer.pincode || '560001'
+      },
+      courier: {
+        carrier: 'BlueDart Express Priority Air',
+        awb: 'BD-' + Math.floor(10000000 + Math.random() * 90000000),
+        hub: 'Bengaluru E-City Fulfillment Centre',
+        destination: `${customer.city || 'Bengaluru'}, PIN ${customer.pincode || '560001'}`,
+        estimatedDelivery: estFormatted
       },
       items: cartAnalysis.items,
       pricing: {
@@ -47,20 +62,44 @@ class OrderService {
         total: cartAnalysis.total
       },
       payment: {
-        method: paymentMethod,
+        method: paymentMethod || 'Instant UPI (HDFC/ICICI)',
         status: 'PAID',
         transactionId: 'TXN-' + Date.now()
       },
       status: 'VERIFIED',
       currentStep: 1, // 1: Verified, 2: Packing, 3: In Transit, 4: Delivered
       timeline: [
-        { step: 1, title: 'Order Received & Verified', timestamp: new Date().toISOString(), completed: true },
-        { step: 2, title: 'Packed & Dispatched', timestamp: null, completed: false },
-        { step: 3, title: 'Out for Priority Delivery', timestamp: null, completed: false },
-        { step: 4, title: 'Delivered', timestamp: null, completed: false }
+        {
+          step: 1,
+          title: 'Order Confirmed & Payment Verified',
+          desc: `Payment authorized via ${paymentMethod || 'Instant UPI'}. Atelier verification complete.`,
+          time: `Today, ${timeFormatted}`,
+          completed: true
+        },
+        {
+          step: 2,
+          title: 'Warehouse Sorting & Eco-Packaging',
+          desc: 'Allocated from Bengaluru Atelier. Hand-wrapped in 100% recyclable organic dust-bag.',
+          time: 'In progress...',
+          completed: false
+        },
+        {
+          step: 3,
+          title: 'Handed to Express Courier',
+          desc: 'BlueDart Priority Air Tracking assigned and scanned at outbound dock.',
+          time: 'Estimated today',
+          completed: false
+        },
+        {
+          step: 4,
+          title: 'Out for Final Delivery',
+          desc: `Arriving at ${customer.city || 'Bengaluru'} destination with contact-free delivery.`,
+          time: `Estimated ${estFormatted}`,
+          completed: false
+        }
       ],
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString()
     };
 
     store.createOrder(order);
@@ -93,20 +132,34 @@ class OrderService {
       const order = store.getOrderById(orderId);
       if (!order) return;
 
+      const packTime = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
       order.timeline[1].completed = true;
-      order.timeline[1].timestamp = new Date().toISOString();
+      order.timeline[1].time = `Completed at ${packTime}`;
       const updated = store.updateOrderStatus(orderId, 'PACKED', 2, { timeline: order.timeline });
       socketService.notifyOrderProgress(orderId, updated);
 
-      // Step 3: Courier in transit (after another 4s)
+      // Step 3: Express Courier Handover (after another 4s)
       setTimeout(() => {
         const o3 = store.getOrderById(orderId);
         if (!o3) return;
 
+        const shipTime = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
         o3.timeline[2].completed = true;
-        o3.timeline[2].timestamp = new Date().toISOString();
+        o3.timeline[2].time = `Dispatched at ${shipTime}`;
         const u3 = store.updateOrderStatus(orderId, 'IN_TRANSIT', 3, { timeline: o3.timeline });
         socketService.notifyOrderProgress(orderId, u3);
+
+        // Step 4: Final Delivery Simulated Milestone (after another 4.5s)
+        setTimeout(() => {
+          const o4 = store.getOrderById(orderId);
+          if (!o4) return;
+
+          const delTime = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+          o4.timeline[3].completed = true;
+          o4.timeline[3].time = `Delivered at ${delTime}`;
+          const u4 = store.updateOrderStatus(orderId, 'DELIVERED', 4, { timeline: o4.timeline });
+          socketService.notifyOrderProgress(orderId, u4);
+        }, 4500);
       }, 4000);
     }, 3500);
   }

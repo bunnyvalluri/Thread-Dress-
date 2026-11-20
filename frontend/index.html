@@ -302,44 +302,208 @@
     </div>
   </div>
 
-  <!-- REAL-TIME ORDER TRACKING MODAL -->
+  <!-- REAL-WORLD SECURE CHECKOUT MODAL -->
+  <div class="modal-overlay" id="checkoutModal" onclick="closeCheckoutModal(event)">
+    <div class="checkout-modal">
+      <button class="modal-close" onclick="toggleCheckoutModal(false)" aria-label="Close checkout">×</button>
+      <div class="checkout-head">
+        <span class="checkout-badge">🔒 SECURE 256-BIT ENCRYPTED ATELIER CHECKOUT</span>
+        <h2>Complete Your Selection</h2>
+        <p>Mindfully tailored natural apparel &amp; home textiles shipped directly from Bengaluru.</p>
+      </div>
+
+      <form class="checkout-form" id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+        <!-- Step 1: Customer & Delivery Details -->
+        <div class="form-section">
+          <div class="section-title">
+            <span class="step-num">1</span>
+            <strong>Shipping &amp; Contact Details</strong>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="custName">Full Name *</label>
+              <input type="text" id="custName" required placeholder="e.g. Rahul Valluri" value="Rahul Valluri">
+            </div>
+            <div class="form-group">
+              <label for="custPhone">Phone Number *</label>
+              <input type="tel" id="custPhone" required placeholder="+91 98765 43210" value="+91 98765 43210">
+            </div>
+            <div class="form-group full">
+              <label for="custAddress">Street Address / Apartment *</label>
+              <input type="text" id="custAddress" required placeholder="House / Flat No., Road, Landmark" value="Flat 402, Green Living Residency">
+            </div>
+            <div class="form-group">
+              <label for="custCity">City *</label>
+              <select id="custCity" required>
+                <option value="Bengaluru" selected>Bengaluru</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="New Delhi">New Delhi</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Jaipur">Jaipur</option>
+                <option value="Pune">Pune</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Kochi">Kochi</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="custPincode">PIN Code *</label>
+              <input type="text" id="custPincode" required placeholder="560001" value="560001">
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Payment Method Selection -->
+        <div class="form-section">
+          <div class="section-title">
+            <span class="step-num">2</span>
+            <strong>Payment Method</strong>
+          </div>
+          <div class="payment-options">
+            <label class="pay-option active">
+              <input type="radio" name="payMethod" value="Instant UPI (Google Pay / PhonePe / Paytm)" checked onchange="updatePayOption(this)">
+              <div class="pay-info">
+                <div class="pay-header">
+                  <strong>⚡ Instant UPI (Fastest &amp; Preferred)</strong>
+                  <span class="pay-pill">Recommended</span>
+                </div>
+                <span>Google Pay, PhonePe, Paytm, BHIM, CRED or any bank UPI ID</span>
+              </div>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payMethod" value="Credit / Debit Card" onchange="updatePayOption(this)">
+              <div class="pay-info">
+                <strong>💳 Credit or Debit Card</strong>
+                <span>Visa, MasterCard, RuPay &amp; American Express</span>
+              </div>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payMethod" value="Cash on Delivery" onchange="updatePayOption(this)">
+              <div class="pay-info">
+                <strong>📦 Contactless Cash on Delivery</strong>
+                <span>Pay cash or UPI directly upon doorstep arrival</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Order Summary Snapshot -->
+        <div class="checkout-summary-box">
+          <div class="chk-row">
+            <span>Selected Pieces (<span id="chkItemCount">0</span>)</span>
+            <strong id="chkSubtotal">₹0</strong>
+          </div>
+          <div class="chk-row">
+            <span>Express Atelier Courier Delivery</span>
+            <span id="chkShipping" style="color:var(--forest); font-weight:700;">FREE</span>
+          </div>
+          <div class="chk-row total">
+            <span>Total Amount Payable</span>
+            <span id="chkTotal" style="color:var(--forest); font-size:18px; font-weight:700;">₹0</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary btn-submit-order" id="btnPlaceOrder">
+          <span id="btnPayText">Authorize &amp; Place Order</span>
+          <span class="spinner" id="paySpinner" style="display:none;">⏳</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- REAL-WORLD LIVE ORDER FULFILLMENT & TRACKING HUB -->
   <div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
     <div class="order-tracker-modal">
       <button class="modal-close" onclick="toggleOrderModal(false)" aria-label="Close modal">×</button>
       <div class="tracker-header">
-        <span class="tracker-badge">● LIVE REAL-TIME TRACKING</span>
-        <h2 class="tracker-order-id" id="trackerOrderId">Order #TF-79281</h2>
-        <p style="font-size:12px; color:var(--muted);">Simulated live fulfillment pipeline</p>
+        <span class="tracker-badge">● LIVE REAL-TIME LOGISTICS TELEMETRY</span>
+        <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin: 6px 0 2px;">
+          <h2 class="tracker-order-id" id="trackerOrderId" style="margin:0;">Order #TF-55353</h2>
+          <button class="btn-copy-id" onclick="copyOrderId()" title="Copy Order ID">📋</button>
+        </div>
+        <p id="trackerSubtitle" style="font-size:12.5px; color:var(--muted); margin:0;">Direct fulfillment telemetry from Bengaluru Central Atelier</p>
       </div>
 
+      <!-- Live Courier Metadata Box -->
+      <div class="courier-meta-card" id="courierMetaCard">
+        <div class="courier-row">
+          <span class="courier-label">Courier Carrier:</span>
+          <strong id="courierCarrier">BlueDart Express Priority Air</strong>
+        </div>
+        <div class="courier-row">
+          <span class="courier-label">AWB Tracking Code:</span>
+          <strong id="courierAwb" style="color:var(--forest); font-family:monospace; letter-spacing:0.05em;">BD-84920194</strong>
+        </div>
+        <div class="courier-row">
+          <span class="courier-label">Estimated Delivery:</span>
+          <span id="courierEta" style="color:var(--forest); font-weight:700;">Thursday, 22 Nov</span>
+        </div>
+        <div class="courier-row">
+          <span class="courier-label">Destination Hub:</span>
+          <span id="courierDest" style="color:var(--ink);">Bengaluru, PIN 560001</span>
+        </div>
+      </div>
+
+      <!-- Dynamic 4-Step Timeline -->
       <div class="timeline" id="orderTimeline">
         <div class="timeline-step completed" id="step1">
           <div class="timeline-dot">✓</div>
-          <div class="timeline-title">Order Received & Verified</div>
-          <div class="timeline-desc">Payment confirmed via Instant UPI / Card Demo.</div>
-          <div class="timeline-time" id="time1">Just now</div>
+          <div class="timeline-title" id="step1Title">Order Confirmed &amp; Payment Verified</div>
+          <div class="timeline-desc" id="step1Desc">Payment authorized via Instant UPI. Atelier verification complete.</div>
+          <div class="timeline-time" id="step1Time">Just now</div>
         </div>
         <div class="timeline-step active" id="step2">
           <div class="timeline-dot">2</div>
-          <div class="timeline-title">Warehouse Sorting & Eco-Packaging</div>
-          <div class="timeline-desc">Allocating stock and preparing organic cotton dust-bag.</div>
-          <div class="timeline-time" id="time2">In progress...</div>
+          <div class="timeline-title" id="step2Title">Warehouse Sorting &amp; Eco-Packaging</div>
+          <div class="timeline-desc" id="step2Desc">Allocated from Bengaluru Atelier. Hand-wrapped in 100% recyclable organic dust-bag.</div>
+          <div class="timeline-time" id="step2Time">In progress...</div>
         </div>
         <div class="timeline-step" id="step3">
           <div class="timeline-dot">3</div>
-          <div class="timeline-title">Handed to Express Courier</div>
-          <div class="timeline-desc">BlueDart / Delhivery Priority Tracking assigned.</div>
-          <div class="timeline-time">Estimated today</div>
+          <div class="timeline-title" id="step3Title">Handed to Express Courier</div>
+          <div class="timeline-desc" id="step3Desc">BlueDart Priority Air Tracking assigned and scanned at outbound dock.</div>
+          <div class="timeline-time" id="step3Time">Estimated today</div>
         </div>
         <div class="timeline-step" id="step4">
           <div class="timeline-dot">4</div>
-          <div class="timeline-title">Out for Delivery</div>
-          <div class="timeline-desc">Arriving at your doorstep with complimentary delivery.</div>
-          <div class="timeline-time">Estimated tomorrow</div>
+          <div class="timeline-title" id="step4Title">Out for Final Delivery</div>
+          <div class="timeline-desc" id="step4Desc">Assigned to local delivery associate. Arriving with contact-free delivery.</div>
+          <div class="timeline-time" id="step4Time">Estimated tomorrow</div>
         </div>
       </div>
 
-      <button class="btn-primary" style="width:100%" onclick="toggleOrderModal(false)">Done · Return to Store</button>
+      <!-- Ordered Items Summary Accordion -->
+      <div class="order-items-summary" id="orderItemsBox">
+        <div class="summary-head" onclick="toggleOrderItemsList()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; padding:10px 0 6px; border-top:1px solid var(--line); font-size:12.5px; font-weight:600;">
+          <span>📦 View Ordered Items (<span id="summaryItemCount">0</span>)</span>
+          <span id="summaryToggleArrow">▼</span>
+        </div>
+        <div id="summaryItemsList" style="display:none; padding:8px 0; max-height:160px; overflow-y:auto;"></div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="tracker-actions">
+        <button class="btn-print-invoice" onclick="printOrderInvoice()">🖨️ Print / Download Tax Invoice</button>
+        <button class="btn-primary" style="width:100%" onclick="toggleOrderModal(false)">Done · Return to Store</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REAL-WORLD TRACK ORDER LOOKUP DIALOG -->
+  <div class="modal-overlay" id="trackLookupModal" onclick="closeTrackLookupModal(event)">
+    <div class="track-lookup-card">
+      <button class="modal-close" onclick="toggleTrackLookupModal(false)">×</button>
+      <span class="tracker-badge" style="display:inline-block; margin-bottom:8px;">LOGISTICS LOOKUP</span>
+      <h3 style="font-family:var(--serif); margin:0 0 6px; font-size:20px;">Track Any Shipment</h3>
+      <p style="font-size:13px; color:var(--muted); margin:0 0 16px;">Enter your Order ID (e.g. TF-55353) to see real-time atelier dispatch and courier status.</p>
+      <div style="display:flex; gap:8px; margin-bottom:14px;">
+        <input type="text" id="trackOrderIdInput" placeholder="Enter Order ID (e.g. TF-55353)" style="flex:1; padding:10px 14px; border:1px solid var(--line); border-radius:8px; font-size:14px; text-transform:uppercase;">
+        <button class="btn-primary" onclick="lookupAndTrackOrder()">Track</button>
+      </div>
+      <div id="recentOrdersSection" style="display:none; border-top:1px solid var(--line); padding-top:12px;">
+        <span style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); display:block; margin-bottom:8px;">Recent orders on this browser:</span>
+        <div id="recentOrdersPills" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+      </div>
     </div>
   </div>
 

@@ -662,9 +662,10 @@ function runLiveTicker() {
 }
 
 /* ==========================================================================
-   5. REAL-TIME ORDER FULFILLMENT TRACKER & WEBSOCKET ENGINE
+   5. REAL-WORLD CHECKOUT, DISPATCH TELEMETRY & WEBSOCKET ENGINE
    ========================================================================== */
 let wsClient = null;
+let currentActiveOrder = null;
 
 function connectRealtimeTelemetry() {
   if (typeof WebSocket === 'undefined' || location.protocol === 'file:') return;
@@ -685,7 +686,9 @@ function connectRealtimeTelemetry() {
         } else if (msg.type === 'SOCIAL_EVENT' && msg.event) {
           showSocialNotification(`Someone in <strong>${msg.event.city}</strong> just ${msg.event.action} <strong>${msg.event.item}</strong>.`);
         } else if (msg.type === 'ORDER_STATUS_UPDATED' && msg.order) {
-          updateOrderTrackerUI(msg.order);
+          if (currentActiveOrder && currentActiveOrder.id === msg.order.id) {
+            renderOrderTracker(msg.order);
+          }
         }
       } catch (err) {}
     };
@@ -696,99 +699,443 @@ function connectRealtimeTelemetry() {
   } catch (err) {}
 }
 
-function updateOrderTrackerUI(order) {
-  const orderIdEl = document.getElementById("trackerOrderId");
-  if (orderIdEl) orderIdEl.textContent = `Order #${order.id}`;
-
-  const s1 = document.getElementById("step1");
-  const s2 = document.getElementById("step2");
-  const s3 = document.getElementById("step3");
-  const s4 = document.getElementById("step4");
-  const time2 = document.getElementById("time2");
-
-  if (!s1 || !s2 || !s3 || !s4) return;
-
-  if (order.currentStep >= 1) s1.className = "timeline-step completed";
-  if (order.currentStep >= 2) {
-    s2.className = "timeline-step completed";
-    if (time2) time2.textContent = "Dispatched via Priority Courier";
-  } else if (order.currentStep === 1) {
-    s2.className = "timeline-step active";
-  }
-  if (order.currentStep >= 3) s3.className = "timeline-step active";
-  if (order.currentStep >= 4) s4.className = "timeline-step completed";
-}
-
 function initiateCheckout() {
   if (!cart.length) {
-    alert("Your bag is currently empty. Please add items to proceed.");
+    alert("Your shopping bag is empty. Please add natural apparel pieces to proceed.");
     return;
   }
   toggleCartDrawer(false);
-  triggerSimulatedOrder();
+  populateCheckoutSummary();
+  toggleCheckoutModal(true);
 }
 
-async function triggerSimulatedOrder() {
-  const currentItems = [...cart];
-  cart = [];
-  saveCart();
+function toggleCheckoutModal(show) {
+  const modal = document.getElementById("checkoutModal");
+  if (modal) modal.classList.toggle("open", show);
+}
 
-  const orderIdFallback = "TF-" + Math.floor(10000 + Math.random() * 90000);
-  const orderIdEl = document.getElementById("trackerOrderId");
-  if (orderIdEl) orderIdEl.textContent = `Order #${orderIdFallback}`;
+function closeCheckoutModal(e) {
+  if (e.target.id === "checkoutModal") toggleCheckoutModal(false);
+}
 
-  const s1 = document.getElementById("step1");
-  const s2 = document.getElementById("step2");
-  const s3 = document.getElementById("step3");
-  const s4 = document.getElementById("step4");
-  const time2 = document.getElementById("time2");
+function populateCheckoutSummary() {
+  const countEl = document.getElementById("chkItemCount");
+  const subtotalEl = document.getElementById("chkSubtotal");
+  const shippingEl = document.getElementById("chkShipping");
+  const totalEl = document.getElementById("chkTotal");
+  const payBtnText = document.getElementById("btnPayText");
 
-  if (s1 && s2 && s3 && s4) {
-    s1.className = "timeline-step completed";
-    s2.className = "timeline-step active";
-    s3.className = "timeline-step";
-    s4.className = "timeline-step";
-    if (time2) time2.textContent = "In progress (Simulating real-time dispatch)...";
+  const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+  const subtotal = cart.reduce((sum, item) => {
+    const p = catalog.find(x => x.id === item.id);
+    return sum + (p ? p.price * item.qty : 0);
+  }, 0);
+
+  const freeShipping = subtotal >= 2500 && subtotal > 0;
+  const shipping = (subtotal === 0 || freeShipping) ? 0 : 150;
+  const grandTotal = subtotal + shipping;
+
+  if (countEl) countEl.textContent = totalItems;
+  if (subtotalEl) subtotalEl.textContent = money(subtotal);
+  if (shippingEl) shippingEl.textContent = freeShipping ? "FREE" : "₹150";
+  if (totalEl) totalEl.textContent = money(grandTotal);
+  if (payBtnText) payBtnText.textContent = `Authorize & Place Order · ${money(grandTotal)}`;
+}
+
+function updatePayOption(input) {
+  document.querySelectorAll(".pay-option").forEach(el => el.classList.remove("active"));
+  if (input && input.parentElement) {
+    input.parentElement.classList.add("active");
   }
+}
 
-  toggleOrderModal(true);
+async function handleCheckoutSubmit(e) {
+  e.preventDefault();
 
-  // Attempt backend API order submission
+  const name = document.getElementById("custName")?.value || "Rahul Valluri";
+  const phone = document.getElementById("custPhone")?.value || "+91 98765 43210";
+  const address = document.getElementById("custAddress")?.value || "Flat 402, Green Living Residency";
+  const city = document.getElementById("custCity")?.value || "Bengaluru";
+  const pincode = document.getElementById("custPincode")?.value || "560001";
+  const payMethodInput = document.querySelector('input[name="payMethod"]:checked');
+  const payMethod = payMethodInput ? payMethodInput.value : "Instant UPI";
+
+  const btnPay = document.getElementById("btnPlaceOrder");
+  const payText = document.getElementById("btnPayText");
+  const spinner = document.getElementById("paySpinner");
+
+  if (btnPay) btnPay.disabled = true;
+  if (payText) payText.textContent = "Authorizing payment & reserving atelier stock...";
+  if (spinner) spinner.style.display = "inline";
+
+  const orderPayload = {
+    customer: { name, phone, address, city, pincode, email: "rahul@threadandform.com" },
+    items: cart.length ? [...cart] : [{ id: 1, qty: 1, size: "M" }],
+    paymentMethod: payMethod
+  };
+
+  let realOrder = null;
+
   try {
     const res = await fetch('/api/v1/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        customer: { name: 'Storefront Guest', city: 'Bengaluru' },
-        items: currentItems.length ? currentItems : [{ id: 1, qty: 1, size: 'M' }]
-      })
+      body: JSON.stringify(orderPayload)
     });
 
     if (res.ok) {
       const data = await res.json();
-      const realOrder = data.data;
-      if (orderIdEl) orderIdEl.textContent = `Order #${realOrder.id}`;
-
-      // Subscribe to real-time WebSocket fulfillment lifecycle
-      if (wsClient && wsClient.readyState === WebSocket.OPEN) {
-        wsClient.send(JSON.stringify({ type: 'SUBSCRIBE_ORDER', orderId: realOrder.id }));
-      }
-      return;
+      realOrder = data.data;
     }
-  } catch (e) {
-    // Graceful offline fallback
+  } catch (err) {
+    // Offline or static server fallback
   }
 
-  // Client-side fallback simulation if backend is not reachable
-  setTimeout(() => {
-    if (s2 && s3) {
-      s2.className = "timeline-step completed";
-      s3.className = "timeline-step active";
+  // Fallback offline generator if backend server is unreachable
+  if (!realOrder) {
+    const orderIdFallback = "TF-" + Math.floor(10000 + Math.random() * 90000);
+    const now = new Date();
+    const estDate = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
+    const estFormatted = estDate.toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' });
+    const timeFormatted = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+    const subtotal = orderPayload.items.reduce((sum, item) => {
+      const p = catalog.find(x => x.id === item.id);
+      return sum + (p ? p.price * item.qty : 0);
+    }, 0);
+    const shipping = subtotal >= 2500 ? 0 : 150;
+
+    realOrder = {
+      id: orderIdFallback,
+      customer: orderPayload.customer,
+      courier: {
+        carrier: 'BlueDart Express Priority Air',
+        awb: 'BD-' + Math.floor(10000000 + Math.random() * 90000000),
+        hub: 'Bengaluru E-City Fulfillment Centre',
+        destination: `${city}, PIN ${pincode}`,
+        estimatedDelivery: estFormatted
+      },
+      items: orderPayload.items.map(i => {
+        const p = catalog.find(x => x.id === i.id) || catalog[0];
+        return { ...p, size: i.size || 'M', qty: i.qty || 1, lineTotal: p.price * (i.qty || 1) };
+      }),
+      pricing: { subtotal, shipping, total: subtotal + shipping },
+      payment: { method: payMethod, status: 'PAID', transactionId: 'TXN-' + Date.now() },
+      status: 'VERIFIED',
+      currentStep: 1,
+      timeline: [
+        { step: 1, title: 'Order Confirmed & Payment Verified', desc: `Authorized via ${payMethod}. Transaction ID recorded.`, time: `Today, ${timeFormatted}`, completed: true },
+        { step: 2, title: 'Warehouse Sorting & Eco-Packaging', desc: 'Allocated from Bengaluru Atelier. Hand-wrapped in 100% recyclable organic dust-bag.', time: 'In progress...', completed: false },
+        { step: 3, title: 'Handed to Express Courier', desc: 'BlueDart Priority Air Tracking assigned and scanned at outbound dock.', time: 'Estimated today', completed: false },
+        { step: 4, title: 'Out for Final Delivery', desc: `Arriving at ${city} destination with contact-free delivery.`, time: `Estimated ${estFormatted}`, completed: false }
+      ]
+    };
+
+    // Client simulated lifecycle progression
+    setTimeout(() => {
+      realOrder.currentStep = 2;
+      realOrder.timeline[1].completed = true;
+      realOrder.timeline[1].time = "Completed just now";
+      renderOrderTracker(realOrder);
+      setTimeout(() => {
+        realOrder.currentStep = 3;
+        realOrder.timeline[2].completed = true;
+        realOrder.timeline[2].time = "Dispatched via Priority Air";
+        renderOrderTracker(realOrder);
+      }, 4000);
+    }, 3500);
+  }
+
+  // Save to recent orders
+  saveRecentOrder(realOrder);
+
+  // Subscribe to real-time WebSockets
+  if (wsClient && wsClient.readyState === WebSocket.OPEN) {
+    wsClient.send(JSON.stringify({ type: 'SUBSCRIBE_ORDER', orderId: realOrder.id }));
+  }
+
+  // Empty cart
+  cart = [];
+  saveCart();
+
+  // Reset checkout button
+  if (btnPay) btnPay.disabled = false;
+  if (payText) payText.textContent = "Authorize & Place Order";
+  if (spinner) spinner.style.display = "none";
+
+  toggleCheckoutModal(false);
+  renderOrderTracker(realOrder);
+  toggleOrderModal(true);
+
+  if (typeof showSocialNotification === 'function') {
+    showSocialNotification(`🎉 Order <strong>#${realOrder.id}</strong> placed! Atelier packing initiated.`);
+  }
+}
+
+function saveRecentOrder(order) {
+  try {
+    let recent = JSON.parse(localStorage.getItem('tf_recent_orders') || '[]');
+    recent = recent.filter(o => o.id !== order.id);
+    recent.unshift({ id: order.id, total: order.pricing?.total, date: new Date().toLocaleDateString() });
+    localStorage.setItem('tf_recent_orders', JSON.stringify(recent.slice(0, 5)));
+  } catch(e) {}
+}
+
+function renderOrderTracker(order) {
+  currentActiveOrder = order;
+
+  const idEl = document.getElementById("trackerOrderId");
+  if (idEl) idEl.textContent = `Order #${order.id}`;
+
+  const carrierEl = document.getElementById("courierCarrier");
+  const awbEl = document.getElementById("courierAwb");
+  const etaEl = document.getElementById("courierEta");
+  const destEl = document.getElementById("courierDest");
+
+  if (carrierEl) carrierEl.textContent = order.courier?.carrier || "BlueDart Express Priority Air";
+  if (awbEl) awbEl.textContent = order.courier?.awb || ("AWB-" + Math.floor(10000000 + Math.random() * 90000000));
+  if (etaEl) etaEl.textContent = order.courier?.estimatedDelivery || "Thursday, 22 Nov";
+  if (destEl) destEl.textContent = order.courier?.destination || `${order.customer?.city || 'Bengaluru'}, PIN ${order.customer?.pincode || '560001'}`;
+
+  // Timeline
+  for (let i = 1; i <= 4; i++) {
+    const stepEl = document.getElementById(`step${i}`);
+    const dotEl = stepEl?.querySelector(".timeline-dot");
+    const titleEl = document.getElementById(`step${i}Title`);
+    const descEl = document.getElementById(`step${i}Desc`);
+    const timeEl = document.getElementById(`step${i}Time`);
+
+    const stepData = order.timeline ? order.timeline.find(s => s.step === i) : null;
+
+    if (stepEl && dotEl) {
+      if (order.currentStep > i || (stepData && stepData.completed)) {
+        stepEl.className = "timeline-step completed";
+        dotEl.textContent = "✓";
+      } else if (order.currentStep === i) {
+        stepEl.className = "timeline-step active";
+        dotEl.textContent = String(i);
+      } else {
+        stepEl.className = "timeline-step";
+        dotEl.textContent = String(i);
+      }
     }
+
+    if (stepData) {
+      if (titleEl && stepData.title) titleEl.textContent = stepData.title;
+      if (descEl && stepData.desc) descEl.textContent = stepData.desc;
+      if (timeEl && stepData.time) timeEl.textContent = stepData.time;
+    }
+  }
+
+  // Items Summary
+  const countEl = document.getElementById("summaryItemCount");
+  const listEl = document.getElementById("summaryItemsList");
+  if (countEl && order.items) countEl.textContent = order.items.reduce((acc, i) => acc + (i.qty || 1), 0);
+  if (listEl && order.items) {
+    listEl.innerHTML = order.items.map(item => `
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px dashed var(--line); font-size:12px;">
+        <div>
+          <strong>${item.name}</strong> <span style="color:var(--muted)">(${item.size || 'M'}) × ${item.qty || 1}</span>
+        </div>
+        <strong>${money(item.lineTotal || item.price * (item.qty || 1))}</strong>
+      </div>
+    `).join("") + `
+      <div style="display:flex; justify-content:space-between; padding-top:8px; font-weight:700; font-size:13px; color:var(--forest);">
+        <span>Total Paid</span>
+        <span>${money(order.pricing?.total || 0)}</span>
+      </div>
+    `;
+  }
+}
+
+function toggleOrderItemsList() {
+  const list = document.getElementById("summaryItemsList");
+  const arrow = document.getElementById("summaryToggleArrow");
+  if (!list) return;
+  const isHidden = list.style.display === "none";
+  list.style.display = isHidden ? "block" : "none";
+  if (arrow) arrow.textContent = isHidden ? "▲" : "▼";
+}
+
+function copyOrderId() {
+  if (!currentActiveOrder) return;
+  navigator.clipboard.writeText(currentActiveOrder.id).then(() => {
     if (typeof showSocialNotification === 'function') {
-      showSocialNotification(`📦 Order ${orderIdFallback}: Packed and handed to Priority Courier.`);
+      showSocialNotification(`📋 Copied Order ID <strong>${currentActiveOrder.id}</strong> to clipboard.`);
     }
-  }, 4000);
+  }).catch(() => {
+    alert(`Order ID: ${currentActiveOrder.id}`);
+  });
+}
+
+function printOrderInvoice() {
+  if (!currentActiveOrder) return;
+  const o = currentActiveOrder;
+  const invoiceWindow = window.open('', '_blank', 'width=800,height=700');
+  if (!invoiceWindow) {
+    alert("Please allow popups to view and print your invoice receipt.");
+    return;
+  }
+
+  invoiceWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Tax Invoice — ${o.id} — THREAD & FORM</title>
+      <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 40px; color: #1a2e26; max-width: 650px; margin: 0 auto; }
+        .head { border-bottom: 2px solid #234b3d; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; }
+        h1 { margin: 0; font-size: 24px; color: #234b3d; letter-spacing: 0.05em; }
+        .meta { font-size: 13px; color: #555; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #e5e7eb; font-size: 13px; }
+        th { background: #f9fafb; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+        .total-row { font-size: 15px; font-weight: 700; color: #234b3d; border-top: 2px solid #234b3d; }
+        .badge { background: #e6f4ea; color: #137333; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .btn-print { background: #234b3d; color: #fff; padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 20px; }
+        @media print { .btn-print { display: none; } }
+      </style>
+    </head>
+    <body>
+      <div class="head">
+        <div>
+          <h1>THREAD &amp; FORM</h1>
+          <div class="meta" style="margin-top:4px;">Atelier &amp; Home Textiles · Bengaluru Central Atelier</div>
+          <div class="meta">GSTIN: 29AAACT9812A1Z5 · support@threadandform.com</div>
+        </div>
+        <div style="text-align:right;">
+          <span class="badge">OFFICIAL TAX INVOICE</span>
+          <div style="font-weight:700; margin-top:6px; font-size:16px;">${o.id}</div>
+          <div class="meta">${new Date().toLocaleDateString('en-IN')}</div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:24px; font-size:13px;">
+        <div>
+          <strong>Billed &amp; Shipped To:</strong><br>
+          ${o.customer.name}<br>
+          ${o.customer.address}<br>
+          ${o.customer.city}, PIN ${o.customer.pincode}<br>
+          Phone: ${o.customer.phone}
+        </div>
+        <div style="text-align:right;">
+          <strong>Logistics Carrier:</strong><br>
+          ${o.courier.carrier}<br>
+          AWB: <code>${o.courier.awb}</code><br>
+          Payment: ${o.payment.method} (${o.payment.status})
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Size</th>
+            <th>Qty</th>
+            <th style="text-align:right;">Unit Price</th>
+            <th style="text-align:right;">Line Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${o.items.map(i => `
+            <tr>
+              <td><strong>${i.name}</strong></td>
+              <td>${i.size || 'M'}</td>
+              <td>${i.qty || 1}</td>
+              <td style="text-align:right;">${money(i.price)}</td>
+              <td style="text-align:right;">${money(i.lineTotal || i.price * (i.qty || 1))}</td>
+            </tr>
+          `).join("")}
+          <tr>
+            <td colspan="4" style="text-align:right;">Subtotal:</td>
+            <td style="text-align:right;">${money(o.pricing.subtotal)}</td>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align:right;">Express Atelier Shipping:</td>
+            <td style="text-align:right;">${o.pricing.shipping === 0 ? 'FREE' : money(o.pricing.shipping)}</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="4" style="text-align:right;">Total Paid:</td>
+            <td style="text-align:right;">${money(o.pricing.total)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="text-align:center; margin-top:30px;">
+        <button class="btn-print" onclick="window.print()">Print This Invoice</button>
+      </div>
+    </body>
+    </html>
+  `);
+  invoiceWindow.document.close();
+}
+
+function toggleTrackLookupModal(show) {
+  const modal = document.getElementById("trackLookupModal");
+  if (modal) {
+    modal.classList.toggle("open", show);
+    if (show) renderRecentOrdersPills();
+  }
+}
+
+function closeTrackLookupModal(e) {
+  if (e.target.id === "trackLookupModal") toggleTrackLookupModal(false);
+}
+
+function renderRecentOrdersPills() {
+  const sec = document.getElementById("recentOrdersSection");
+  const container = document.getElementById("recentOrdersPills");
+  if (!sec || !container) return;
+
+  try {
+    const list = JSON.parse(localStorage.getItem('tf_recent_orders') || '[]');
+    if (!list.length) {
+      sec.style.display = "none";
+      return;
+    }
+    sec.style.display = "block";
+    container.innerHTML = list.map(o => `
+      <button class="recent-order-pill" onclick="lookupAndTrackOrder('${o.id}')">
+        ${o.id} · ${money(o.total || 0)}
+      </button>
+    `).join("");
+  } catch(e) {}
+}
+
+async function lookupAndTrackOrder(orderIdParam) {
+  const input = document.getElementById("trackOrderIdInput");
+  const orderId = (orderIdParam || (input ? input.value : "")).trim().toUpperCase();
+
+  if (!orderId) {
+    alert("Please enter a valid Order ID (e.g. TF-55353).");
+    return;
+  }
+
+  // Try fetching from backend
+  try {
+    const res = await fetch(`/api/v1/orders/${orderId}`);
+    if (res.ok) {
+      const data = await res.json();
+      toggleTrackLookupModal(false);
+      renderOrderTracker(data.data);
+      toggleOrderModal(true);
+      return;
+    }
+  } catch(e) {}
+
+  // If order was current active order
+  if (currentActiveOrder && currentActiveOrder.id === orderId) {
+    toggleTrackLookupModal(false);
+    renderOrderTracker(currentActiveOrder);
+    toggleOrderModal(true);
+    return;
+  }
+
+  alert(`Order #${orderId} was not found. Please verify your order number and try again.`);
+}
+
+function triggerSimulatedOrder() {
+  initiateCheckout();
 }
 
 function toggleOrderModal(show) {
