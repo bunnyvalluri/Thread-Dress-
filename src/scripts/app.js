@@ -126,8 +126,153 @@ const catalog = [
     stock: 4,
     image: "src/assets/images/daily-overshirt.jpg",
     desc: "Crisp yet breathable linen layer with horn buttons and chest pockets."
+  },
+  {
+    id: 13,
+    name: "Structured Linen Blazer",
+    category: "Women",
+    price: 3490,
+    tag: "EDITORIAL",
+    stock: 3,
+    image: "src/assets/images/linen-blazer.jpg",
+    desc: "Tailored unlined summer blazer woven from raw Normandy flax linen."
+  },
+  {
+    id: 14,
+    name: "Wide-Leg Linen Culottes",
+    category: "Women",
+    price: 2190,
+    tag: "ORGANIC",
+    stock: 6,
+    image: "src/assets/images/linen-culottes.jpg",
+    desc: "Airy cropped wide trousers in breathable natural oat linen with deep pockets."
+  },
+  {
+    id: 15,
+    name: "Draped Silk-Cotton Maxi Dress",
+    category: "Women",
+    price: 3890,
+    tag: "LIMITED RUN",
+    stock: 2,
+    image: "src/assets/images/silk-dress.jpg",
+    desc: "Fluid tiered ankle-length dress woven from organic cotton and mulberry silk."
+  },
+  {
+    id: 16,
+    name: "Band-Collar Linen Kurta Shirt",
+    category: "Men",
+    price: 1990,
+    tag: "ARTISAN",
+    stock: 8,
+    image: "src/assets/images/kurta-shirt.jpg",
+    desc: "Contemporary mandarin-collar shirt in breathable washed natural linen."
+  },
+  {
+    id: 17,
+    name: "Tailored Pleated Chinos",
+    category: "Men",
+    price: 2490,
+    tag: "NEW ARRIVAL",
+    stock: 5,
+    image: "src/assets/images/pleated-chinos.jpg",
+    desc: "Relaxed-tapered organic twill trousers with double front pleats."
+  },
+  {
+    id: 18,
+    name: "Waffle Knit Crewneck",
+    category: "Men",
+    price: 1890,
+    tag: "WARM LAYER",
+    stock: 7,
+    image: "src/assets/images/waffle-crewneck.jpg",
+    desc: "Midweight textured honeycomb knit spun from pure combed organic cotton."
+  },
+  {
+    id: 19,
+    name: "Indigo Selvedge Chambray Shirt",
+    category: "Men",
+    price: 2190,
+    tag: "SLOW LIVING",
+    stock: 4,
+    image: "src/assets/images/chambray-shirt.jpg",
+    desc: "Vintage-loomed indigo chambray with contrast bone buttons and chest pocket."
+  },
+  {
+    id: 20,
+    name: "Washed Linen Duvet Set",
+    category: "Home",
+    price: 4290,
+    tag: "LUXURY SLEEP",
+    stock: 3,
+    image: "src/assets/images/duvet-set.jpg",
+    desc: "Breathable stone-washed European flax bedding set for temperate year-round rest."
+  },
+  {
+    id: 21,
+    name: "Hand-Spun Cotton Bath Towels",
+    category: "Home",
+    price: 1290,
+    tag: "ECO ESSENTIAL",
+    stock: 11,
+    image: "src/assets/images/bath-towels.jpg",
+    desc: "Ultra-absorbent plush waffle weave bath sheet in unbleached ecru."
+  },
+  {
+    id: 22,
+    name: "Stoneware Ceramic Incense Vessel",
+    category: "Home",
+    price: 850,
+    tag: "STUDIO CRAFT",
+    stock: 9,
+    image: "src/assets/images/ceramic-vessel.jpg",
+    desc: "Wheel-thrown speckled clay vessel with matte botanical wood-ash glaze."
+  },
+  {
+    id: 23,
+    name: "Botanical Dyed Linen Napkins",
+    category: "Home",
+    price: 1150,
+    tag: "HANDMADE",
+    stock: 6,
+    image: "src/assets/images/linen-napkins.jpg",
+    desc: "Set of 4 earthy marigold and indigo hand-dyed table napkins with frayed selvedge."
+  },
+  {
+    id: 24,
+    name: "Hand-Knotted Jute Floor Runner",
+    category: "Home",
+    price: 2790,
+    tag: "NATURAL FIBER",
+    stock: 5,
+    image: "src/assets/images/jute-runner.jpg",
+    desc: "Heavyweight braided golden jute runner for textured hallway warmth and durability."
   }
 ];
+
+function updateCatalogCounts() {
+  const allCount = catalog.length;
+  const womenCount = catalog.filter(p => p.category === "Women").length;
+  const menCount = catalog.filter(p => p.category === "Men").length;
+  const homeCount = catalog.filter(p => p.category === "Home").length;
+
+  const cAll = document.getElementById("chipCountAll");
+  const cWomen = document.getElementById("chipCountWomen");
+  const cMen = document.getElementById("chipCountMen");
+  const cHome = document.getElementById("chipCountHome");
+  if (cAll) cAll.textContent = allCount;
+  if (cWomen) cWomen.textContent = womenCount;
+  if (cMen) cMen.textContent = menCount;
+  if (cHome) cHome.textContent = homeCount;
+
+  const mAll = document.getElementById("mobileCountAll");
+  const mWomen = document.getElementById("mobileCountWomen");
+  const mMen = document.getElementById("mobileCountMen");
+  const mHome = document.getElementById("mobileCountHome");
+  if (mAll) mAll.textContent = `${allCount} pieces`;
+  if (mWomen) mWomen.textContent = `${womenCount} pieces`;
+  if (mMen) mMen.textContent = `${menCount} pieces`;
+  if (mHome) mHome.textContent = `${homeCount} pieces`;
+}
 
 const money = (n) => "₹" + Number(n).toLocaleString("en-IN");
 
@@ -413,8 +558,12 @@ const rotatingAnnouncements = [
   "⚡ Someone in Bengaluru just purchased Linen Everyday Shirt",
   "⚡ 100% French Flax Linen & Combed Organic Cotton",
   "⚡ Someone in Mumbai added Relaxed Sand Trousers to bag",
+  "⚡ Someone in Jaipur ordered Structured Linen Blazer",
   "⚡ Hassle-free 14-day exchange and return policy",
+  "⚡ Someone in Kolkata added Washed Linen Duvet Set to bag",
   "⚡ Someone in New Delhi purchased Textured Cushion Cover",
+  "⚡ Someone in Hyderabad purchased Band-Collar Linen Kurta Shirt",
+  "⚡ Someone in Kochi ordered Hand-Knotted Jute Floor Runner",
   "⚡ Real-time multi-tab bag synchronization active"
 ];
 
@@ -424,7 +573,13 @@ const socialEvents = [
   { city: "New Delhi", action: "purchased", item: "Textured Cushion Cover", icon: "🛋️" },
   { city: "Hyderabad", action: "reviewed ★★★★★", item: "Oxford Casual Shirt", icon: "⭐" },
   { city: "Chennai", action: "purchased", item: "Raw Organic Throw Blanket", icon: "✨" },
-  { city: "Pune", action: "added to bag", item: "Classic Cotton Tee", icon: "👕" }
+  { city: "Pune", action: "added to bag", item: "Classic Cotton Tee", icon: "👕" },
+  { city: "Jaipur", action: "purchased", item: "Structured Linen Blazer", icon: "🧥" },
+  { city: "Kolkata", action: "added to bag", item: "Washed Linen Duvet Set", icon: "🛏️" },
+  { city: "Ahmedabad", action: "reviewed ★★★★★", item: "Band-Collar Linen Kurta Shirt", icon: "⭐" },
+  { city: "Kochi", action: "purchased", item: "Hand-Knotted Jute Floor Runner", icon: "🏡" },
+  { city: "Chandigarh", action: "purchased", item: "Draped Silk-Cotton Maxi Dress", icon: "👗" },
+  { city: "Goa", action: "added to bag", item: "Botanical Dyed Linen Napkins", icon: "✨" }
 ];
 
 function showSocialNotification(htmlContent) {
@@ -689,6 +844,7 @@ document.addEventListener("click", (e) => {
 
 // Global Initialization
 window.addEventListener("DOMContentLoaded", () => {
+  updateCatalogCounts();
   loadCart();
   applySortAndFilter();
   runLiveTicker();

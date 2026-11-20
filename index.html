@@ -69,22 +69,22 @@
       <div class="mobile-nav-links">
         <a href="#collection" onclick="filterCategory('All'); toggleMobileMenu(false);">
           <span class="nav-label">The Collection</span>
-          <span class="nav-count">12 pieces</span>
+          <span class="nav-count" id="mobileCountAll">24 pieces</span>
         </a>
         <a href="#collection" onclick="filterCategory('Women'); toggleMobileMenu(false);">
           <span class="nav-label">Women's Apparel</span>
-          <span class="nav-count">5 pieces</span>
+          <span class="nav-count" id="mobileCountWomen">8 pieces</span>
         </a>
         <a href="#collection" onclick="filterCategory('Men'); toggleMobileMenu(false);">
           <span class="nav-label">Men's Essentials</span>
-          <span class="nav-count">4 pieces</span>
+          <span class="nav-count" id="mobileCountMen">8 pieces</span>
         </a>
         <a href="#collection" onclick="filterCategory('Home'); toggleMobileMenu(false);">
           <span class="nav-label">Home Textiles</span>
-          <span class="nav-count">3 pieces</span>
+          <span class="nav-count" id="mobileCountHome">8 pieces</span>
         </a>
         <a href="#story" onclick="toggleMobileMenu(false);">
-          <span class="nav-label">Fabrics & Craftsmanship</span>
+          <span class="nav-label">Fabrics &amp; Craftsmanship</span>
           <span class="nav-arrow">→</span>
         </a>
       </div>
@@ -123,14 +123,14 @@
     <!-- LIVE FILTER & SORT TOOLBAR -->
     <section class="store-controls" id="collection">
       <div class="filter-chips" id="filterChips">
-        <button class="chip active" data-cat="All" onclick="filterCategory('All')">All Pieces (12)</button>
-        <button class="chip" data-cat="Women" onclick="filterCategory('Women')">Women</button>
-        <button class="chip" data-cat="Men" onclick="filterCategory('Men')">Men</button>
-        <button class="chip" data-cat="Home" onclick="filterCategory('Home')">Home Textiles</button>
+        <button class="chip active" data-cat="All" onclick="filterCategory('All')">All Pieces (<span id="chipCountAll">24</span>)</button>
+        <button class="chip" data-cat="Women" onclick="filterCategory('Women')">Women (<span id="chipCountWomen">8</span>)</button>
+        <button class="chip" data-cat="Men" onclick="filterCategory('Men')">Men (<span id="chipCountMen">8</span>)</button>
+        <button class="chip" data-cat="Home" onclick="filterCategory('Home')">Home Textiles (<span id="chipCountHome">8</span>)</button>
       </div>
 
       <div class="meta-tools">
-        <span class="catalog-count" id="productCount">12 pieces available</span>
+        <span class="catalog-count" id="productCount">24 pieces available</span>
         <select class="sort-select" id="sortSelect" onchange="applySortAndFilter()" aria-label="Sort products">
           <option value="featured">Sort: Featured</option>
           <option value="low">Price: Low to High</option>

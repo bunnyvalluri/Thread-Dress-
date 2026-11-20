@@ -52,7 +52,7 @@ Crafted by **[VALLURI RAHUL](https://valluri-rahul-portfolio.vercel.app/)**.
 | **Mobile-First 2-Column Grid** | CSS Grid with fluid `clamp()` tokens and touch targets | Generous touch padding on phones; expands to 3 & 4 columns on larger screens |
 | **Live Order Pipeline** | 4-stage reactive fulfillment simulation engine | Customers watch real-time order progression (Verification → Packing → Courier → Delivery) |
 | **Dynamic Stock Telemetry** | Automated inventory decrementation & viewer counters | Subtle social proof indicating live shopper activity and scarcity warnings |
-| **Local Media Assets** | Self-hosted 14-piece high-resolution JPEG catalog | Eliminates external CDN blocking, rate limits, and broken image errors |
+| **Local Media Assets** | Self-hosted 26-piece high-resolution JPEG catalog (24 products + hero/story) | Eliminates external CDN blocking, rate limits, and broken image errors |
 | **Shopping Drawer & Modal** | CSS transforms, backdrop blur & focus management | Fluid slide-over bag with free-shipping meter and interactive size selector |
 | **Live Fabric Concierge** | Intelligent keyword heuristic response engine | Answers sizing, fabric origin, wash care, and return policy questions 24/7 |
 
