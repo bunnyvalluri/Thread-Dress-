@@ -7,11 +7,10 @@
   },
   "include": [
     "src/**/*",
-    "sw.js"
+    "public/**/*"
   ],
   "exclude": [
     "node_modules",
-    "archive",
-    "milestones"
+    "prototypes"
   ]
 }
