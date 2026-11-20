@@ -955,6 +955,17 @@ a {
   gap: 6px;
 }
 
+.footer-bottom a {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.footer-bottom a:hover {
+  color: var(--gold);
+}
+
 /* ==========================================================================
    9. MODALS, DRAWER, CHAT & TOASTS
    ========================================================================== */
