@@ -62,13 +62,47 @@
     <!-- Mobile Nav Slide-Down Drawer -->
     <nav class="mobile-nav-drawer" id="mobileNav" aria-label="Mobile Navigation">
       <div class="mobile-drawer-search">
-        <input type="search" placeholder="Search collection..." oninput="document.getElementById('liveSearchInput').value = this.value; applySortAndFilter();">
+        <span class="drawer-search-icon">🔍</span>
+        <input type="search" placeholder="Search clothes, linen, home..." aria-label="Search collection" oninput="document.getElementById('liveSearchInput').value = this.value; applySortAndFilter();">
       </div>
-      <a href="#collection" onclick="filterCategory('All'); toggleMobileMenu(false);">The Collection <span>→</span></a>
-      <a href="#collection" onclick="filterCategory('Women'); toggleMobileMenu(false);">Women's Apparel <span>→</span></a>
-      <a href="#collection" onclick="filterCategory('Men'); toggleMobileMenu(false);">Men's Essentials <span>→</span></a>
-      <a href="#collection" onclick="filterCategory('Home'); toggleMobileMenu(false);">Home Textiles <span>→</span></a>
-      <a href="#story" onclick="toggleMobileMenu(false);">Fabrics & Craftsmanship <span>→</span></a>
+
+      <div class="mobile-nav-links">
+        <a href="#collection" onclick="filterCategory('All'); toggleMobileMenu(false);">
+          <span class="nav-label">The Collection</span>
+          <span class="nav-count">12 pieces</span>
+        </a>
+        <a href="#collection" onclick="filterCategory('Women'); toggleMobileMenu(false);">
+          <span class="nav-label">Women's Apparel</span>
+          <span class="nav-count">5 pieces</span>
+        </a>
+        <a href="#collection" onclick="filterCategory('Men'); toggleMobileMenu(false);">
+          <span class="nav-label">Men's Essentials</span>
+          <span class="nav-count">4 pieces</span>
+        </a>
+        <a href="#collection" onclick="filterCategory('Home'); toggleMobileMenu(false);">
+          <span class="nav-label">Home Textiles</span>
+          <span class="nav-count">3 pieces</span>
+        </a>
+        <a href="#story" onclick="toggleMobileMenu(false);">
+          <span class="nav-label">Fabrics & Craftsmanship</span>
+          <span class="nav-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="mobile-drawer-footer">
+        <div class="drawer-perk">
+          <span class="pulse-dot"></span>
+          <span>Complimentary shipping on orders above ₹2,500</span>
+        </div>
+        <div class="drawer-actions">
+          <button class="drawer-action-btn" onclick="toggleChat(); toggleMobileMenu(false);">
+            <span>💬</span> Live Concierge
+          </button>
+          <a href="https://valluri-rahul-portfolio.vercel.app/" target="_blank" rel="noopener noreferrer" class="drawer-action-btn">
+            <span>Portfolio</span> ↗
+          </a>
+        </div>
+      </div>
     </nav>
   </header>
 
